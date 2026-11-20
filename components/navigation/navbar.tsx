@@ -40,7 +40,7 @@ import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
 import Image from "next/image";
 import { SettingsDrawer } from "./SettingDrawer";
-import { useLanguage } from "./language/language-provider";
+import { useLanguage } from "../language/language-provider";
 const iconMap: Record<string, ElementType> = {
   House,
   BookOpen,
