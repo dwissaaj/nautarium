@@ -20,10 +20,13 @@ import { useTheme } from "next-themes";
 import { useLanguage } from "../language/language-provider";
 import { appearanceConfig } from "@/config/setting/site";
 
+import { useLanguageStore } from "@/app/stores/language-store";
+
 
 export function SettingsDrawer({ collapsed }: { collapsed: boolean }) {
   const { theme, setTheme } = useTheme();
-  const { language, setLanguage } = useLanguage();
+const language = useLanguageStore((state) => state.language);
+const setLanguage = useLanguageStore((state) => state.setLanguage);
 
   const t = appearanceConfig[language];
   const isDark = theme === "dark";
@@ -125,13 +128,11 @@ export function SettingsDrawer({ collapsed }: { collapsed: boolean }) {
                           </Typography>
                         </div>
 
-                        <Switch
-                          aria-label={t.language}
-                          isSelected={isEnglish}
-                          onChange={(selected) =>
-                            setLanguage(selected ? "en" : "id")
-                          }
-                        >
+<Switch
+  aria-label={t.language}
+  isSelected={language === "en"}
+  onChange={(selected) => setLanguage(selected ? "en" : "id")}
+>
                           <Switch.Content>
                             <Switch.Control>
                               <Switch.Thumb />

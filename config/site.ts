@@ -36,6 +36,15 @@ export const siteConfig = {
         },
         {
           label: {
+            id: "Notes",
+            en: "Notes",
+          },
+          href: "/notes",
+          icon: "NotebookPenIcon",
+          enabled: true,
+        },
+        {
+          label: {
             id: "Tanya AI",
             en: "Ask AI",
           },

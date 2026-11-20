@@ -34,7 +34,9 @@ import {
   ScanSearch,
   Brain,
   ImageUp,
+  NotebookPenIcon,
 } from "lucide-react";
+
 
 import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
@@ -63,6 +65,7 @@ const iconMap: Record<string, ElementType> = {
   ListChecks,
   BookImage,
   ScanSearch,
+  NotebookPenIcon,
   Brain,
   ImageUp,
 };
