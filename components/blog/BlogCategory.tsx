@@ -4,10 +4,8 @@ import Link from "next/link";
 import { Accordion, Typography } from "@heroui/react";
 import { Folder, FileText, ChevronDown } from "lucide-react";
 
-
 import { blogConfig } from "@/config/blog/blogs";
 import { useLanguageStore } from "@/app/stores/language-store";
-
 
 interface BlogCategoriesProps {
   activeCategory: string | null;
@@ -23,36 +21,37 @@ export default function BlogCategories({
 
   return (
     <Accordion
-      className="w-full"
       hideSeparator
       allowsMultipleExpanded={false}
+      className="w-full"
       expandedKeys={activeCategory ? [activeCategory] : []}
       onExpandedChange={(keys) => {
         const selected = Array.from(keys)[0] ?? null;
+
         onCategoryChange(selected ? String(selected) : null);
       }}
     >
       {t.categories.map((category) => (
         <Accordion.Item
           key={category.id}
-          id={category.id}
           className="border-b border-separator"
+          id={category.id}
         >
           <Accordion.Heading>
             <Accordion.Trigger className="flex w-full items-center gap-3 py-4 text-left transition-opacity hover:opacity-70">
               <Folder
+                className="shrink-0 text-default-500"
                 size={19}
                 strokeWidth={1.5}
-                className="shrink-0 text-default-500"
               />
 
               <div className="min-w-0 flex-1">
-                <Typography type="body-sm" className="font-medium">
+                <Typography className="font-medium" type="body-sm">
                   {category.title[language]}
                 </Typography>
               </div>
 
-              <Typography type="body-xs" color="muted">
+              <Typography color="muted" type="body-xs">
                 {category.articles.length} {t.articles[language]}
               </Typography>
 
@@ -65,7 +64,7 @@ export default function BlogCategories({
           <Accordion.Panel>
             <Accordion.Body className="pb-5 pl-8">
               <div className="space-y-4 border-l border-separator pl-5">
-                <Typography type="body-sm" color="muted">
+                <Typography color="muted" type="body-sm">
                   {category.description[language]}
                 </Typography>
 
@@ -74,37 +73,34 @@ export default function BlogCategories({
                     {category.articles.map((article) => (
                       <Link
                         key={article.id}
-                        href={`/blog/${article.id}`}
                         className="flex gap-3 rounded-md px-3 py-3 transition-colors hover:bg-surface-secondary"
+                        href={`/blog/${article.id}`}
                       >
                         <FileText
+                          className="mt-0.5 shrink-0 text-default-400"
                           size={16}
                           strokeWidth={1.5}
-                          className="mt-0.5 shrink-0 text-default-400"
                         />
 
                         <div className="min-w-0 flex-1 space-y-1">
-                          <Typography
-                            type="body-sm"
-                            className="font-medium"
-                          >
+                          <Typography className="font-medium" type="body-sm">
                             {article.title[language]}
                           </Typography>
 
-                          <Typography type="body-xs" color="muted">
+                          <Typography color="muted" type="body-xs">
                             {article.description[language]}
                           </Typography>
 
-                          <Typography type="body-xs" color="muted">
+                          <Typography color="muted" type="body-xs">
                             {new Date(
-                              `${article.date}T00:00:00`
+                              `${article.date}T00:00:00`,
                             ).toLocaleDateString(
                               language === "id" ? "id-ID" : "en-US",
                               {
                                 day: "numeric",
                                 month: "long",
                                 year: "numeric",
-                              }
+                              },
                             )}
                           </Typography>
                         </div>
@@ -112,7 +108,7 @@ export default function BlogCategories({
                     ))}
                   </div>
                 ) : (
-                  <Typography type="body-xs" color="muted">
+                  <Typography color="muted" type="body-xs">
                     {t.empty[language]}
                   </Typography>
                 )}

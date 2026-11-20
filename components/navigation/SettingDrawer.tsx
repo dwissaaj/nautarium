@@ -1,32 +1,16 @@
 "use client";
 
-import {
-  Accordion,
-  Button,
-  Drawer,
-  Switch,
-  Typography,
-} from "@heroui/react";
-
-import {
-  Settings,
-  ChevronDown,
-  Palette,
-  Code,
-  Puzzle,
-} from "lucide-react";
-
+import { Accordion, Button, Drawer, Switch, Typography } from "@heroui/react";
+import { Settings, ChevronDown, Palette, Code, Puzzle } from "lucide-react";
 import { useTheme } from "next-themes";
-import { useLanguage } from "../language/language-provider";
+
 import { appearanceConfig } from "@/config/setting/site";
-
 import { useLanguageStore } from "@/app/stores/language-store";
-
 
 export function SettingsDrawer({ collapsed }: { collapsed: boolean }) {
   const { theme, setTheme } = useTheme();
-const language = useLanguageStore((state) => state.language);
-const setLanguage = useLanguageStore((state) => state.setLanguage);
+  const language = useLanguageStore((state) => state.language);
+  const setLanguage = useLanguageStore((state) => state.setLanguage);
 
   const t = appearanceConfig[language];
   const isDark = theme === "dark";
@@ -35,17 +19,17 @@ const setLanguage = useLanguageStore((state) => state.setLanguage);
   return (
     <Drawer>
       <Button
-        variant="ghost"
         aria-label={t.settings}
         className={`hover:bg-accent w-full ${
           collapsed ? "justify-center" : "justify-start"
         }`}
+        variant="ghost"
       >
         <Settings size={18} />
         {!collapsed && t.settings}
       </Button>
 
-      <Drawer.Backdrop variant="transparent" >
+      <Drawer.Backdrop variant="opaque">
         <Drawer.Content placement="left">
           <Drawer.Dialog>
             <Drawer.CloseTrigger />
@@ -62,8 +46,8 @@ const setLanguage = useLanguageStore((state) => state.setLanguage);
               >
                 {/* Appearance */}
                 <Accordion.Item
-                  id="appearance"
                   className="rounded-xl border border-separator px-3"
+                  id="appearance"
                 >
                   <Accordion.Heading>
                     <Accordion.Trigger className="flex w-full items-center gap-3 py-3">
@@ -74,7 +58,7 @@ const setLanguage = useLanguageStore((state) => state.setLanguage);
                           {t.appearance}
                         </Typography>
 
-                        <Typography type="body-xs" color="muted">
+                        <Typography color="muted" type="body-xs">
                           {t.appearanceDescription}
                         </Typography>
                       </div>
@@ -94,10 +78,8 @@ const setLanguage = useLanguageStore((state) => state.setLanguage);
                             {t.mode}
                           </Typography>
 
-                          <Typography type="body-xs" color="muted">
-                            {isDark
-                              ? t.darkDescription
-                              : t.lightDescription}
+                          <Typography color="muted" type="body-xs">
+                            {isDark ? t.darkDescription : t.lightDescription}
                           </Typography>
                         </div>
 
@@ -123,16 +105,18 @@ const setLanguage = useLanguageStore((state) => state.setLanguage);
                             {t.language}
                           </Typography>
 
-                          <Typography type="body-xs" color="muted">
+                          <Typography color="muted" type="body-xs">
                             {isEnglish ? t.english : t.indonesian}
                           </Typography>
                         </div>
 
-<Switch
-  aria-label={t.language}
-  isSelected={language === "en"}
-  onChange={(selected) => setLanguage(selected ? "en" : "id")}
->
+                        <Switch
+                          aria-label={t.language}
+                          isSelected={language === "en"}
+                          onChange={(selected) =>
+                            setLanguage(selected ? "en" : "id")
+                          }
+                        >
                           <Switch.Content>
                             <Switch.Control>
                               <Switch.Thumb />
@@ -146,8 +130,8 @@ const setLanguage = useLanguageStore((state) => state.setLanguage);
 
                 {/* Snippets */}
                 <Accordion.Item
-                  id="snippets"
                   className="rounded-xl border border-separator px-3"
+                  id="snippets"
                 >
                   <Accordion.Heading>
                     <Accordion.Trigger className="flex w-full items-center gap-3 py-3">
@@ -158,12 +142,12 @@ const setLanguage = useLanguageStore((state) => state.setLanguage);
                           {t.snippets}
                         </Typography>
 
-                        <Typography type="body-xs" color="muted">
+                        <Typography color="muted" type="body-xs">
                           {t.snippetsDescription}
                         </Typography>
                       </div>
 
-                      <Typography type="body-xs" color="muted">
+                      <Typography color="muted" type="body-xs">
                         {t.snippetsSoon}
                       </Typography>
 
@@ -175,7 +159,7 @@ const setLanguage = useLanguageStore((state) => state.setLanguage);
 
                   <Accordion.Panel>
                     <Accordion.Body className="pb-4 pt-2">
-                      <Typography type="body-xs" color="muted">
+                      <Typography color="muted" type="body-xs">
                         {t.snippetsSoon}
                       </Typography>
                     </Accordion.Body>
@@ -184,8 +168,8 @@ const setLanguage = useLanguageStore((state) => state.setLanguage);
 
                 {/* Extensions */}
                 <Accordion.Item
-                  id="extensions"
                   className="rounded-xl border border-separator px-3"
+                  id="extensions"
                 >
                   <Accordion.Heading>
                     <Accordion.Trigger className="flex w-full items-center gap-3 py-3">
@@ -196,12 +180,12 @@ const setLanguage = useLanguageStore((state) => state.setLanguage);
                           {t.extensions}
                         </Typography>
 
-                        <Typography type="body-xs" color="muted">
+                        <Typography color="muted" type="body-xs">
                           {t.extensionsDescription}
                         </Typography>
                       </div>
 
-                      <Typography type="body-xs" color="muted">
+                      <Typography color="muted" type="body-xs">
                         {t.extensionsSoon}
                       </Typography>
 
@@ -213,7 +197,7 @@ const setLanguage = useLanguageStore((state) => state.setLanguage);
 
                   <Accordion.Panel>
                     <Accordion.Body className="pb-4 pt-2">
-                      <Typography type="body-xs" color="muted">
+                      <Typography color="muted" type="body-xs">
                         {t.extensionsSoon}
                       </Typography>
                     </Accordion.Body>

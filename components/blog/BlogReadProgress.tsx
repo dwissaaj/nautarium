@@ -1,4 +1,3 @@
-
 import { Breadcrumbs } from "@heroui/react";
 
 export interface BreadcrumbItem {
@@ -10,9 +9,7 @@ interface AppBreadcrumbsProps {
   items: BreadcrumbItem[];
 }
 
-export default function BlogReadProgress({
-  items,
-}: AppBreadcrumbsProps) {
+export default function BlogReadProgress({ items }: AppBreadcrumbsProps) {
   return (
     <Breadcrumbs>
       {items.map((item, index) => {

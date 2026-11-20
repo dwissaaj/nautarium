@@ -17,6 +17,6 @@ export const useLanguageStore = create<LanguageStore>()(
     {
       name: "nautarium-language",
       storage: createJSONStorage(() => localStorage),
-    }
-  )
+    },
+  ),
 );

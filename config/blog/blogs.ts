@@ -37,8 +37,5 @@ export const blogConfig = {
     en: "There are no articles in this category yet.",
   },
 
-  categories: [
-    nlpCategory,
-    softwareCategory,
-  ],
+  categories: [nlpCategory, softwareCategory],
 };

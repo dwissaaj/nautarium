@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-
 import { Typography } from "@heroui/react";
 import { ArrowLeft, CalendarDays, Folder } from "lucide-react";
 
@@ -13,9 +12,7 @@ interface BlogArticleClientProps {
   title: string;
 }
 
-export default function BlogArticleClient({
-  title,
-}: BlogArticleClientProps) {
+export default function BlogArticleClient({ title }: BlogArticleClientProps) {
   const language = useLanguageStore((state) => state.language);
 
   const article = blogConfig.categories
@@ -23,7 +20,7 @@ export default function BlogArticleClient({
       category.articles.map((item) => ({
         ...item,
         category,
-      }))
+      })),
     )
     .find((item) => item.id === title);
 
@@ -44,14 +41,12 @@ export default function BlogArticleClient({
         />
 
         <Typography type="h2">
-          {language === "id"
-            ? "Artikel tidak ditemukan"
-            : "Article not found"}
+          {language === "id" ? "Artikel tidak ditemukan" : "Article not found"}
         </Typography>
 
         <Link
-          href="/blog"
           className="inline-flex items-center gap-2 text-sm text-default-500 hover:text-default-900"
+          href="/blog"
         >
           <ArrowLeft size={16} />
           {language === "id" ? "Kembali ke Blog" : "Back to Blog"}
@@ -88,8 +83,8 @@ export default function BlogArticleClient({
       {/* Article header */}
       <header className="mx-auto w-full max-w-3xl space-y-5">
         <Link
-          href="/blog"
           className="inline-flex items-center gap-2 text-sm text-default-500 transition-colors hover:text-default-900"
+          href="/blog"
         >
           <ArrowLeft size={16} />
           {language === "id" ? "Semua artikel" : "All articles"}
@@ -109,16 +104,14 @@ export default function BlogArticleClient({
                 day: "numeric",
                 month: "long",
                 year: "numeric",
-              }
+              },
             )}
           </span>
         </div>
 
-        <Typography type="h1">
-          {article.title[language]}
-        </Typography>
+        <Typography type="h1">{article.title[language]}</Typography>
 
-        <Typography type="body" color="muted">
+        <Typography color="muted" type="body">
           {article.description[language]}
         </Typography>
 
@@ -128,11 +121,7 @@ export default function BlogArticleClient({
       {/* Article content */}
       <article className="mx-auto w-full max-w-3xl space-y-6">
         {content.map((paragraph, index) => (
-          <Typography
-            key={index}
-            type="body"
-            className="leading-8"
-          >
+          <Typography key={index} className="leading-8" type="body">
             {paragraph}
           </Typography>
         ))}
@@ -141,8 +130,8 @@ export default function BlogArticleClient({
       {/* Article footer */}
       <footer className="mx-auto w-full max-w-3xl border-t border-separator pt-6">
         <Link
-          href="/blog"
           className="inline-flex items-center gap-2 text-sm text-default-500 transition-colors hover:text-default-900"
+          href="/blog"
         >
           <ArrowLeft size={16} />
           {language === "id"

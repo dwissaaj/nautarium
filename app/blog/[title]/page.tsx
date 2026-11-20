@@ -1,12 +1,12 @@
-import { blogConfig } from "@/config/blog/blogs";
 import BlogArticleClient from "./BlogClient";
 
+import { blogConfig } from "@/config/blog/blogs";
 
 export function generateStaticParams() {
   return blogConfig.categories.flatMap((category) =>
     category.articles.map((article) => ({
       title: article.id,
-    }))
+    })),
   );
 }
 
