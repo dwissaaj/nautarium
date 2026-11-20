@@ -3,8 +3,7 @@
 import { useState, type ElementType } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
-import { Accordion, Avatar, Typography } from "@heroui/react";
+import { Button, Drawer, Accordion, Avatar, Typography } from "@heroui/react";
 
 import {
   House,
@@ -31,14 +30,17 @@ import {
   Tags,
   KeyRound,
   ListChecks,
-  Image,
+  BookImage,
   ScanSearch,
   Brain,
+  ImageUp,
 } from "lucide-react";
 
 import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
-
+import Image from "next/image";
+import { SettingsDrawer } from "./SettingDrawer";
+import { useLanguage } from "./language/language-provider";
 const iconMap: Record<string, ElementType> = {
   House,
   BookOpen,
@@ -59,9 +61,10 @@ const iconMap: Record<string, ElementType> = {
   Tags,
   KeyRound,
   ListChecks,
-  Image,
+  BookImage,
   ScanSearch,
   Brain,
+  ImageUp,
 };
 
 function getIcon(name: string, size = 18) {
@@ -80,18 +83,15 @@ function isActive(pathname: string, href: string) {
 
 export default function Navbar() {
   const pathname = usePathname();
+  const { language } = useLanguage();
 
   const [collapsed, setCollapsed] = useState(false);
 
-  const sidebarWidth = collapsed ? "w-[68px]" : "w-[250px]";
+  const sidebarWidth = collapsed ? "w-[68px]" : "w-[300px]";
 
-  const enabledGroups = siteConfig.navGroups.filter(
-    (group) => group.enabled
-  );
+  const enabledGroups = siteConfig.navGroups.filter((group) => group.enabled);
 
-  const disabledGroups = siteConfig.navGroups.filter(
-    (group) => !group.enabled
-  );
+  const disabledGroups = siteConfig.navGroups.filter((group) => !group.enabled);
 
   const linkClass = (href: string) => {
     const active = isActive(pathname, href);
@@ -100,11 +100,7 @@ export default function Navbar() {
       flex items-center gap-3
       rounded-lg px-3 py-2.5
       transition-colors duration-200
-      ${
-        active
-          ? "bg-accent/10"
-          : "hover:bg-default/5"
-      }
+      ${active ? "bg-accent/10" : "hover:bg-default/5"}
     `;
   };
 
@@ -122,7 +118,13 @@ export default function Navbar() {
       <div className="flex h-16 items-center justify-between border-b border-separator px-4">
         {!collapsed && (
           <Link href="/" className="flex items-center gap-2">
-            <Waves size={24} className="text-accent" />
+            <Image
+              loading="eager"
+              src="/icon.svg"
+              alt="Nautarium"
+              width={42}
+              height={42}
+            />
 
             <Typography
               type="body"
@@ -136,7 +138,7 @@ export default function Navbar() {
 
         {collapsed && (
           <Link href="/" className="mx-auto">
-            <Waves size={24} className="text-accent" />
+             <Image loading="eager"  src="/icon.svg" alt="Nautarium" width={24} height={24} />
           </Link>
         )}
 
@@ -155,7 +157,7 @@ export default function Navbar() {
       </div>
 
       {/* Navigation */}
-      <div className="flex-1 overflow-y-auto px-3 py-4">
+      <div className="flex-1 overflow-y-auto px-2 py-4">
         {!collapsed && (
           <Typography
             type="body-xs"
@@ -178,7 +180,7 @@ export default function Navbar() {
             const GroupIcon = iconMap[group.icon] ?? Circle;
 
             const groupHasActiveChild = group.children.some((child) =>
-              isActive(pathname, child.href)
+              isActive(pathname, child.href),
             );
 
             return (
@@ -218,7 +220,7 @@ export default function Navbar() {
                             groupHasActiveChild ? "text-accent" : ""
                           }`}
                         >
-                          {group.label}
+                          {group.label[language]}
                         </Typography>
 
                         <Accordion.Indicator>
@@ -232,12 +234,9 @@ export default function Navbar() {
                 {!collapsed && (
                   <Accordion.Panel>
                     <Accordion.Body className="pb-2 pt-1">
-                      <div className="ml-5 flex flex-col gap-1 border-l border-separator pl-3">
+                      <div className="ml-2 flex flex-col gap-1 border-l border-separator pl-3">
                         {group.children.map((child) => {
-                          const active = isActive(
-                            pathname,
-                            child.href
-                          );
+                          const active = isActive(pathname, child.href);
 
                           return (
                             <Link
@@ -248,9 +247,7 @@ export default function Navbar() {
                                 rounded-lg px-3 py-2
                                 transition-colors
                                 ${
-                                  active
-                                    ? "bg-accent/10"
-                                    : "hover:bg-default/5"
+                                  active ? "bg-accent/10" : "hover:bg-default/5"
                                 }
                               `}
                             >
@@ -262,7 +259,7 @@ export default function Navbar() {
                                 weight={active ? "medium" : "normal"}
                                 className={active ? "text-accent" : ""}
                               >
-                                {child.label}
+                                {child.label[language]}
                               </Typography>
                             </Link>
                           );
@@ -276,6 +273,7 @@ export default function Navbar() {
           })}
         </Accordion>
 
+        {/* Disabled navigation groups */}
         {/* Disabled navigation groups */}
 {/* Disabled navigation groups */}
 <Accordion
@@ -316,7 +314,7 @@ export default function Navbar() {
                   color="muted"
                   className="flex-1 text-left"
                 >
-                  {group.label}
+                  {group.label[language]}
                 </Typography>
 
                 <Typography type="body-xs" color="muted">
@@ -334,7 +332,7 @@ export default function Navbar() {
         {!collapsed && (
           <Accordion.Panel>
             <Accordion.Body className="pb-2 pt-1">
-              <div className="ml-5 flex flex-col gap-1 border-l border-separator pl-3">
+              <div className="ml-2 flex flex-col gap-1 border-l border-separator pl-3">
                 {group.children.map((child) => (
                   <div
                     key={child.href}
@@ -345,7 +343,7 @@ export default function Navbar() {
                     {getIcon(child.icon, 16)}
 
                     <Typography type="body-sm" color="muted">
-                      {child.label}
+                      {child.label[language]}
                     </Typography>
                   </div>
                 ))}
@@ -361,23 +359,7 @@ export default function Navbar() {
 
       {/* Bottom section */}
       <div className="border-t border-separator p-3">
-        {/* Settings */}
-        <Link
-          href={siteConfig.account.settings.href}
-          className={`
-            ${linkClass(siteConfig.account.settings.href)}
-            ${collapsed ? "justify-center" : ""}
-          `}
-          title={collapsed ? "Settings" : undefined}
-        >
-          {getIcon(siteConfig.account.settings.icon)}
-
-          {!collapsed && (
-            <Typography type="body-sm" color="muted">
-              {siteConfig.account.settings.label}
-            </Typography>
-          )}
-        </Link>
+        <SettingsDrawer collapsed={collapsed} />
 
         {/* User profile + Theme switch */}
         <div
@@ -395,24 +377,16 @@ export default function Navbar() {
           {!collapsed && (
             <>
               <div className="min-w-0 flex-1">
-                <Typography
-                  type="body-sm"
-                  weight="medium"
-                  truncate
-                >
+                <Typography type="body-sm" weight="medium" truncate>
                   {siteConfig.account.profile.name}
                 </Typography>
 
-                <Typography
-                  type="body-xs"
-                  color="muted"
-                  truncate
-                >
-                  {siteConfig.account.profile.description}
+                <Typography type="body-xs" color="muted" truncate>
+                  {siteConfig.account.profile.description[language]}
                 </Typography>
               </div>
 
-              <ThemeSwitch />
+              
             </>
           )}
         </div>

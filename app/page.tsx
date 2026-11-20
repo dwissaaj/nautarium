@@ -1,34 +1,95 @@
-import { siteConfig } from "@/config/site";
-import { title, subtitle } from "@/components/primitives";
-import { GithubIcon } from "@/components/icons";
+import Link from "next/link";
+import { ArrowRight, BoxesLinkedIcon, Coffee, Waves } from "lucide-react";
+import { Button, Separator, Typography } from "@heroui/react";
 
-export default function Home() {
+import Image from "next/image";
+import { DiscordIcon, GithubIcon } from "@/components/icons";
+
+export default function HomePage() {
   return (
-    <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
-      <div className="inline-block max-w-xl text-center justify-center">
-        <span className={title()}>Make&nbsp;</span>
-        <span className={title({ color: "blue" })}>beautiful&nbsp;</span>
-        <br />
-        <span className={title()}>
-          websites regardless of your design experience.
-        </span>
-        <div className={subtitle({ class: "mt-4" })}>
-          Beautiful, fast and modern React UI library.
-        </div>
-      </div>
+    <main className="flex min-h-full flex-col">
+      <section className="flex flex-1 flex-col items-center justify-center ">
+        <Image loading="eager"  src="/icon.svg" alt="Nautarium" width={92} height={92} />
 
-      
+        <Typography
+          type="body-xs"
+          color="muted"
+          weight="semibold"
+          className="mb-4 uppercase tracking-[0.2em]"
+        >
+          Welcome to Nautarium
+        </Typography>
 
-      <div className="mt-8">
-        <div className="flex items-center gap-2 rounded-xl bg-surface shadow-surface px-4 py-2">
-          <pre className="text-sm  font-mediumfont-mono">
-            Get started by editing{" "}
-            <code className="px-2 py-1 h-fit font-mono font-normal inline whitespace-nowrap rounded-sm bg-accent/20 text-accent text-sm">
-              app/page.tsx
-            </code>
-          </pre>
-        </div>
-      </div>
-    </section>
+        <Typography type="h1" weight="bold" className=" text-balance">
+          Explore data.
+          <br />
+          Discover meaning.
+        </Typography>
+
+        <Typography
+          type="body"
+          color="muted"
+          className="mt-6 max-w-md text-center text-balance"
+        >
+          A workspace for natural language processing, audio analysis, network
+          exploration, and data-driven research.
+        </Typography>
+
+        <div className="mt-10 flex flex-wrap justify-center gap-3">
+  <Link href="/blog">
+    <Button
+      variant="primary"
+      className="bg-accent text-accent-foreground"
+    >
+      Explore the Blog
+      <ArrowRight />
+    </Button>
+  </Link>
+
+  <a
+    href="https://www.buymeacoffee.com/YOUR_USERNAME"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <Button variant="secondary">
+      <Coffee />
+      Buy Me a Coffee
+    </Button>
+  </a>
+</div>
+      </section>
+        <Separator className="my-4" />
+<footer className=" px-6 py-5">
+  <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4">
+    <Typography type="body-xs" color="muted">
+      Nautarium — A space for research and exploration.
+    </Typography>
+
+    <div className="flex items-center gap-2">
+      <a
+        href="https://github.com/dwissaaj/nautarium"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="GitHub repository"
+      >
+        <Button isIconOnly variant="tertiary" aria-label="GitHub">
+          <GithubIcon />
+        </Button>
+      </a>
+
+      <a
+        href="https://www.linkedin.com/in/dwi-setyo-aji/"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="LinkedIn profile"
+      >
+        <Button isIconOnly variant="tertiary" aria-label="LinkedIn">
+          <DiscordIcon />
+        </Button>
+      </a>
+    </div>
+  </div>
+</footer>
+    </main>
   );
 }
