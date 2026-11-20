@@ -1,7 +1,16 @@
 "use client";
 
 import { Accordion, Button, Drawer, Switch, Typography } from "@heroui/react";
-import { Settings, ChevronDown, Palette, Code, Puzzle } from "lucide-react";
+import {
+  Settings,
+  ChevronDown,
+  Palette,
+  Code,
+  Puzzle,
+  Sun,
+  Moon,
+  LanguagesIcon,
+} from "lucide-react";
 import { useTheme } from "next-themes";
 
 import { appearanceConfig } from "@/config/setting/site";
@@ -89,17 +98,32 @@ export function SettingsDrawer({ collapsed }: { collapsed: boolean }) {
                           onChange={(selected) =>
                             setTheme(selected ? "dark" : "light")
                           }
+                          size="lg"
                         >
-                          <Switch.Content>
-                            <Switch.Control>
-                              <Switch.Thumb />
-                            </Switch.Control>
-                          </Switch.Content>
+                          {({ isSelected }) => (
+                            <Switch.Content>
+                              <Switch.Control
+                                className={
+                                  isSelected ? "bg-indigo-600" : "bg-amber-400"
+                                }
+                              >
+                                <Switch.Thumb>
+                                  <Switch.Icon>
+                                    {isSelected ? (
+                                      <Moon className="size-3.5 text-indigo-600 opacity-100" />
+                                    ) : (
+                                      <Sun className="size-3.5 text-amber-600 opacity-100" />
+                                    )}
+                                  </Switch.Icon>
+                                </Switch.Thumb>
+                              </Switch.Control>
+                            </Switch.Content>
+                          )}
                         </Switch>
                       </div>
 
                       {/* Language */}
-                      <div className="flex items-center justify-between gap-4">
+                      <div className=" flex items-center justify-between gap-4">
                         <div className="flex flex-col gap-1">
                           <Typography type="body-sm" weight="medium">
                             {t.language}
@@ -111,17 +135,28 @@ export function SettingsDrawer({ collapsed }: { collapsed: boolean }) {
                         </div>
 
                         <Switch
-                          aria-label={t.language}
+                          aria-label="Language"
                           isSelected={language === "en"}
                           onChange={(selected) =>
                             setLanguage(selected ? "en" : "id")
                           }
+                          size="lg"
                         >
-                          <Switch.Content>
-                            <Switch.Control>
-                              <Switch.Thumb />
-                            </Switch.Control>
-                          </Switch.Content>
+                          {({ isSelected }) => (
+                            <Switch.Content>
+                              <Switch.Control
+                                className={
+                                  isSelected ? "bg-blue-600" : "bg-emerald-600"
+                                }
+                              >
+                                <Switch.Thumb>
+                                  <Switch.Icon>
+                                    <LanguagesIcon className="size-3.5 text-current opacity-100" />
+                                  </Switch.Icon>
+                                </Switch.Thumb>
+                              </Switch.Control>
+                            </Switch.Content>
+                          )}
                         </Switch>
                       </div>
                     </Accordion.Body>

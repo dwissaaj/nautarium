@@ -30,7 +30,7 @@
   --border: oklch(90.00% 0.0100 240.48);
   --danger: oklch(65.32% 0.2375 24.14);
   --danger-foreground: oklch(99.11% 0 0);
-  --default: oklch(94.00% 0.0100 240.48);
+  --default: oklch(0.9779 0.0025 59.1);
   --default-foreground: oklch(21.03% 0.0059 240.48);
   --field-background: oklch(100.00% 0.0050 240.48);
   --field-border: transparent;
@@ -75,7 +75,7 @@
   --border: oklch(28.00% 0.0100 240.48);
   --danger: oklch(59.40% 0.2006 23.03);
   --danger-foreground: oklch(99.11% 0 0);
-  --default: oklch(27.40% 0.0100 240.48);
+  --default: oklch(0.1044 0.0148 344);
   --default-foreground: oklch(99.11% 0 0);
   --field-background: oklch(21.03% 0.0200 240.48);
   --field-border: transparent;

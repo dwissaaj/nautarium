@@ -3,11 +3,11 @@
 import { useState } from "react";
 import { Typography } from "@heroui/react";
 
-import { useLanguageStore } from "../stores/language-store";
+import { useLanguageStore } from "../../stores/language-store";
 
 import { blogConfig } from "@/config/blog/blogs";
-import BlogReadProgress from "@/components/blog/BlogReadProgress";
-import BlogCategories from "@/components/blog/BlogCategory";
+import BlogReadProgress from "@/components/(home)/blog/BlogReadProgress";
+import BlogCategories from "@/components/(home)/blog/BlogCategory";
 
 export default function BlogPage() {
   const language = useLanguageStore((state) => state.language);

@@ -6,7 +6,7 @@ import { ArrowLeft, CalendarDays, Folder } from "lucide-react";
 
 import { blogConfig } from "@/config/blog/blogs";
 import { useLanguageStore } from "@/app/stores/language-store";
-import BlogReadProgress from "@/components/blog/BlogReadProgress";
+import BlogReadProgress from "@/components/(home)/blog/BlogReadProgress";
 
 interface BlogArticleClientProps {
   title: string;
