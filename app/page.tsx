@@ -17,25 +17,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="flex gap-3">
-        <a
-          className="button button--primary button--md rounded-full"
-          href={siteConfig.links.docs}
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          Documentation
-        </a>
-        <a
-          className="button button--tertiary button--md rounded-full"
-          href={siteConfig.links.github}
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          <GithubIcon size={20} />
-          GitHub
-        </a>
-      </div>
+      
 
       <div className="mt-8">
         <div className="flex items-center gap-2 rounded-xl bg-surface shadow-surface px-4 py-2">

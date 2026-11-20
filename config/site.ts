@@ -1,69 +1,197 @@
-export type SiteConfig = typeof siteConfig;
-
 export const siteConfig = {
-  name: "Next.js + HeroUI",
-  description: "Make beautiful websites regardless of your design experience.",
-  navItems: [
+  name: "Nautarium",
+  description: "A desktop environment for NLP and data analysis.",
+
+  navGroups: [
     {
+      id: "home",
       label: "Home",
-      href: "/",
+      icon: "House",
+      enabled: true,
+      children: [
+        {
+          label: "Blog",
+          href: "/blog",
+          icon: "BookOpen",
+          enabled: true,
+        },
+        {
+          label: "Resource",
+          href: "/resource",
+          icon: "Library",
+          enabled: true,
+        },
+        {
+          label: "Ask AI",
+          href: "/ask-ai",
+          icon: "Sparkles",
+          enabled: true,
+        },
+      ],
     },
+
     {
-      label: "Docs",
-      href: "/docs",
+      id: "audio",
+      label: "Audio",
+      icon: "AudioLines",
+      enabled: true,
+      children: [
+        {
+          label: "Transcript",
+          href: "/audio/transcript",
+          icon: "FileAudio",
+          enabled: true,
+        },
+        {
+          label: "Analysis",
+          href: "/audio/analysis",
+          icon: "ChartLine",
+          enabled: true,
+        },
+        {
+          label: "Summarization",
+          href: "/audio/summarization",
+          icon: "AlignLeft",
+          enabled: true,
+        },
+        {
+          label: "Report",
+          href: "/audio/report",
+          icon: "FileChartColumn",
+          enabled: true,
+        },
+      ],
     },
+
     {
-      label: "Pricing",
-      href: "/pricing",
+      id: "network",
+      label: "Network",
+      icon: "Network",
+      enabled: false,
+      children: [
+        {
+          label: "Data",
+          href: "/network/data",
+          icon: "Database",
+          enabled: false,
+        },
+        {
+          label: "Centrality",
+          href: "/network/centrality",
+          icon: "Waypoints",
+          enabled: false,
+        },
+        {
+          label: "Graph",
+          href: "/network/graph",
+          icon: "Workflow",
+          enabled: false,
+        },
+        {
+          label: "Report",
+          href: "/network/report",
+          icon: "FileChartColumn",
+          enabled: false,
+        },
+      ],
     },
+
     {
-      label: "Blog",
-      href: "/blog",
+      id: "text",
+      label: "Text",
+      icon: "FileText",
+      enabled: false,
+      children: [
+        {
+          label: "Data",
+          href: "/text/data",
+          icon: "Database",
+          enabled: false,
+        },
+        {
+          label: "Sentiment Analysis",
+          href: "/text/sentiment",
+          icon: "MessageSquareText",
+          enabled: false,
+        },
+        {
+          label: "NER",
+          href: "/text/ner",
+          icon: "Tags",
+          enabled: false,
+        },
+        {
+          label: "Keyword Extraction",
+          href: "/text/keywords",
+          icon: "KeyRound",
+          enabled: false,
+        },
+        {
+          label: "Summarization",
+          href: "/text/summarization",
+          icon: "AlignLeft",
+          enabled: false,
+        },
+        {
+          label: "Classification",
+          href: "/text/classification",
+          icon: "ListChecks",
+          enabled: false,
+        },
+        {
+          label: "Report",
+          href: "/text/report",
+          icon: "FileChartColumn",
+          enabled: false,
+        },
+      ],
     },
+
     {
-      label: "About",
-      href: "/about",
+      id: "image",
+      label: "Image",
+      icon: "Image",
+      enabled: false,
+      children: [
+        {
+          label: "Data",
+          href: "/image/data",
+          icon: "Database",
+          enabled: false,
+        },
+        {
+          label: "Classification",
+          href: "/image/classification",
+          icon: "ScanSearch",
+          enabled: false,
+        },
+        {
+          label: "Sentiment Analysis",
+          href: "/image/sentiment",
+          icon: "Brain",
+          enabled: false,
+        },
+        {
+          label: "Report",
+          href: "/image/report",
+          icon: "FileChartColumn",
+          enabled: false,
+        },
+      ],
     },
   ],
-  navMenuItems: [
-    {
-      label: "Profile",
-      href: "/profile",
-    },
-    {
-      label: "Dashboard",
-      href: "/dashboard",
-    },
-    {
-      label: "Projects",
-      href: "/projects",
-    },
-    {
-      label: "Team",
-      href: "/team",
-    },
-    {
-      label: "Calendar",
-      href: "/calendar",
-    },
-    {
+
+  account: {
+    settings: {
       label: "Settings",
       href: "/settings",
+      icon: "Settings",
     },
-    {
-      label: "Help & Feedback",
-      href: "/help-feedback",
+
+    profile: {
+      name: "User",
+      description: "Account",
+      initials: "U",
     },
-    {
-      label: "Logout",
-      href: "/logout",
-    },
-  ],
-  links: {
-    github: "https://github.com/heroui-inc/heroui",
-    twitter: "https://twitter.com/hero_ui",
-    docs: "https://heroui.com",
-    discord: "https://discord.gg/9b6yyZKmH4",
-    sponsor: "https://patreon.com/jrgarciadev",
   },
 };

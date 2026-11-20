@@ -1,171 +1,422 @@
 "use client";
 
-import { useState } from "react";
-import { Button, Kbd, Link, TextField, InputGroup } from "@heroui/react";
-import NextLink from "next/link";
-import clsx from "clsx";
+import { useState, type ElementType } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
+import { Accordion, Avatar, Typography } from "@heroui/react";
+
+import {
+  House,
+  BookOpen,
+  Library,
+  Sparkles,
+  Database,
+  AudioLines,
+  FileAudio,
+  ChartLine,
+  FileChartColumn,
+  Settings,
+  PanelLeftClose,
+  PanelLeftOpen,
+  ChevronDown,
+  Waves,
+  Circle,
+  AlignLeft,
+  Network,
+  Waypoints,
+  Workflow,
+  FileText,
+  MessageSquareText,
+  Tags,
+  KeyRound,
+  ListChecks,
+  Image,
+  ScanSearch,
+  Brain,
+} from "lucide-react";
 
 import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
-import {
-  TwitterIcon,
-  GithubIcon,
-  DiscordIcon,
-  HeartFilledIcon,
-  SearchIcon,
-  Logo,
-} from "@/components/icons";
 
-export const Navbar = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+const iconMap: Record<string, ElementType> = {
+  House,
+  BookOpen,
+  Library,
+  Sparkles,
+  Database,
+  AudioLines,
+  FileAudio,
+  ChartLine,
+  FileChartColumn,
+  Settings,
+  AlignLeft,
+  Network,
+  Waypoints,
+  Workflow,
+  FileText,
+  MessageSquareText,
+  Tags,
+  KeyRound,
+  ListChecks,
+  Image,
+  ScanSearch,
+  Brain,
+};
 
-  const searchInput = (
-    <TextField aria-label="Search" type="search">
-      <InputGroup>
-        <InputGroup.Prefix>
-          <SearchIcon className="text-base text-muted pointer-events-none flex-shrink-0" />
-        </InputGroup.Prefix>
-        <InputGroup.Input className="text-sm" placeholder="Search..." />
-        <InputGroup.Suffix>
-          <Kbd className="hidden lg:inline-flex">
-            <Kbd.Abbr keyValue="command" />
-            <Kbd.Content>K</Kbd.Content>
-          </Kbd>
-        </InputGroup.Suffix>
-      </InputGroup>
-    </TextField>
+function getIcon(name: string, size = 18) {
+  const Icon = iconMap[name] ?? Circle;
+
+  return <Icon size={size} strokeWidth={1.8} />;
+}
+
+function isActive(pathname: string, href: string) {
+  if (href === "/") {
+    return pathname === "/";
+  }
+
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
+export default function Navbar() {
+  const pathname = usePathname();
+
+  const [collapsed, setCollapsed] = useState(false);
+
+  const sidebarWidth = collapsed ? "w-[68px]" : "w-[250px]";
+
+  const enabledGroups = siteConfig.navGroups.filter(
+    (group) => group.enabled
   );
+
+  const disabledGroups = siteConfig.navGroups.filter(
+    (group) => !group.enabled
+  );
+
+  const linkClass = (href: string) => {
+    const active = isActive(pathname, href);
+
+    return `
+      flex items-center gap-3
+      rounded-lg px-3 py-2.5
+      transition-colors duration-200
+      ${
+        active
+          ? "bg-accent/10"
+          : "hover:bg-default/5"
+      }
+    `;
+  };
 
   return (
-    <nav className="sticky top-0 z-40 w-full border-b border-separator bg-background/70 backdrop-blur-lg">
-      <header className="mx-auto flex h-16 max-w-[1280px] items-center justify-between gap-4 px-6">
-        <div className="flex items-center gap-4">
-          <NextLink className="flex items-center gap-1" href="/">
-            <Logo />
-            <p className="font-bold text-inherit">ACME</p>
-          </NextLink>
-          <ul className="hidden lg:flex gap-4 ml-2">
-            {siteConfig.navItems.map((item) => (
-              <li key={item.href}>
-                <NextLink
-                  className={clsx(
-                    "text-foreground hover:text-accent transition-colors",
-                    "data-[active=true]:text-accent data-[active=true]:font-medium",
-                  )}
-                  href={item.href}
-                >
-                  {item.label}
-                </NextLink>
-              </li>
-            ))}
-          </ul>
-        </div>
+    <aside
+      className={`
+        ${sidebarWidth}
+        flex h-dvh shrink-0 flex-col
+        border-r border-separator
+        bg-background
+        transition-[width] duration-200
+      `}
+    >
+      {/* Header */}
+      <div className="flex h-16 items-center justify-between border-b border-separator px-4">
+        {!collapsed && (
+          <Link href="/" className="flex items-center gap-2">
+            <Waves size={24} className="text-accent" />
 
-        <div className="hidden sm:flex items-center gap-2">
-          <Link
-            aria-label="Twitter"
-            href={siteConfig.links.twitter}
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            <TwitterIcon className="text-muted" />
-          </Link>
-          <Link
-            aria-label="Discord"
-            href={siteConfig.links.discord}
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            <DiscordIcon className="text-muted" />
-          </Link>
-          <Link
-            aria-label="Github"
-            href={siteConfig.links.github}
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            <GithubIcon className="text-muted" />
-          </Link>
-          <ThemeSwitch />
-          <div className="hidden lg:flex">{searchInput}</div>
-          <div className="hidden md:flex">
-            <Button
-              className="text-sm font-normal"
-              variant="tertiary"
-              onPress={() => window.open(siteConfig.links.sponsor, "_blank")}
+            <Typography
+              type="body"
+              weight="semibold"
+              className="tracking-tight"
             >
-              <HeartFilledIcon className="text-danger" />
-              Sponsor
-            </Button>
-          </div>
-        </div>
-
-        <div className="flex sm:hidden items-center gap-2">
-          <Link
-            aria-label="Github"
-            href={siteConfig.links.github}
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            <GithubIcon className="text-muted" />
+              {siteConfig.name}
+            </Typography>
           </Link>
-          <ThemeSwitch />
-          <button
-            aria-expanded={isMenuOpen}
-            aria-label="Toggle menu"
-            className="p-2"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            <svg
-              className="h-6 w-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              {isMenuOpen ? (
-                <path
-                  d="M6 18L18 6M6 6l12 12"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                />
-              ) : (
-                <path
-                  d="M4 6h16M4 12h16M4 18h16"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                />
-              )}
-            </svg>
-          </button>
-        </div>
-      </header>
+        )}
 
-      {isMenuOpen && (
-        <div className="border-t border-separator sm:hidden">
-          <div className="p-4">{searchInput}</div>
-          <ul className="flex flex-col gap-2 px-4 pb-4">
-            {siteConfig.navMenuItems.map((item, index) => (
-              <li key={`${item.label}-${index}`}>
-                <Link
-                  className={clsx(
-                    "block py-2 text-lg no-underline",
-                    index === 2
-                      ? "text-accent"
-                      : index === siteConfig.navMenuItems.length - 1
-                        ? "text-danger"
-                        : "text-foreground",
-                  )}
-                  href="#"
+        {collapsed && (
+          <Link href="/" className="mx-auto">
+            <Waves size={24} className="text-accent" />
+          </Link>
+        )}
+
+        <button
+          type="button"
+          onClick={() => setCollapsed(!collapsed)}
+          className="rounded-lg p-2 text-muted transition-colors hover:bg-default/5 hover:text-foreground"
+          aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+        >
+          {collapsed ? (
+            <PanelLeftOpen size={18} />
+          ) : (
+            <PanelLeftClose size={18} />
+          )}
+        </button>
+      </div>
+
+      {/* Navigation */}
+      <div className="flex-1 overflow-y-auto px-3 py-4">
+        {!collapsed && (
+          <Typography
+            type="body-xs"
+            color="muted"
+            weight="semibold"
+            className="mb-3 px-3 uppercase tracking-wider"
+          >
+            Workspace
+          </Typography>
+        )}
+
+        {/* Enabled navigation groups */}
+        <Accordion
+          allowsMultipleExpanded
+          defaultExpandedKeys={["home"]}
+          hideSeparator
+          className="flex flex-col gap-1"
+        >
+          {enabledGroups.map((group) => {
+            const GroupIcon = iconMap[group.icon] ?? Circle;
+
+            const groupHasActiveChild = group.children.some((child) =>
+              isActive(pathname, child.href)
+            );
+
+            return (
+              <Accordion.Item
+                key={group.id}
+                id={group.id}
+                className="border-none"
+              >
+                <Accordion.Heading>
+                  <Accordion.Trigger
+                    className={`
+                      flex w-full items-center gap-3
+                      rounded-lg px-3 py-2.5
+                      transition-colors
+                      ${
+                        groupHasActiveChild
+                          ? "bg-accent/10 text-accent"
+                          : "text-muted hover:bg-default/5 hover:text-foreground"
+                      }
+                      ${collapsed ? "justify-center" : ""}
+                    `}
+                    onPress={() => {
+                      if (collapsed) {
+                        setCollapsed(false);
+                      }
+                    }}
+                  >
+                    <GroupIcon size={18} strokeWidth={1.8} />
+
+                    {!collapsed && (
+                      <>
+                        <Typography
+                          type="body-sm"
+                          weight="medium"
+                          color={groupHasActiveChild ? "default" : "muted"}
+                          className={`flex-1 text-left ${
+                            groupHasActiveChild ? "text-accent" : ""
+                          }`}
+                        >
+                          {group.label}
+                        </Typography>
+
+                        <Accordion.Indicator>
+                          <ChevronDown size={16} />
+                        </Accordion.Indicator>
+                      </>
+                    )}
+                  </Accordion.Trigger>
+                </Accordion.Heading>
+
+                {!collapsed && (
+                  <Accordion.Panel>
+                    <Accordion.Body className="pb-2 pt-1">
+                      <div className="ml-5 flex flex-col gap-1 border-l border-separator pl-3">
+                        {group.children.map((child) => {
+                          const active = isActive(
+                            pathname,
+                            child.href
+                          );
+
+                          return (
+                            <Link
+                              key={child.href}
+                              href={child.href}
+                              className={`
+                                flex items-center gap-3
+                                rounded-lg px-3 py-2
+                                transition-colors
+                                ${
+                                  active
+                                    ? "bg-accent/10"
+                                    : "hover:bg-default/5"
+                                }
+                              `}
+                            >
+                              {getIcon(child.icon, 16)}
+
+                              <Typography
+                                type="body-sm"
+                                color={active ? "default" : "muted"}
+                                weight={active ? "medium" : "normal"}
+                                className={active ? "text-accent" : ""}
+                              >
+                                {child.label}
+                              </Typography>
+                            </Link>
+                          );
+                        })}
+                      </div>
+                    </Accordion.Body>
+                  </Accordion.Panel>
+                )}
+              </Accordion.Item>
+            );
+          })}
+        </Accordion>
+
+        {/* Disabled navigation groups */}
+{/* Disabled navigation groups */}
+<Accordion
+  allowsMultipleExpanded
+  hideSeparator
+  className="mt-2 flex flex-col gap-1"
+>
+  {disabledGroups.map((group) => {
+    const GroupIcon = iconMap[group.icon] ?? Circle;
+
+    return (
+      <Accordion.Item
+        key={group.id}
+        id={group.id}
+        className="border-none"
+      >
+        <Accordion.Heading>
+          <Accordion.Trigger
+            className={`
+              flex w-full items-center gap-3
+              rounded-lg px-3 py-2.5
+              text-muted opacity-60
+              transition-colors hover:bg-default/5
+              ${collapsed ? "justify-center" : ""}
+            `}
+            onPress={() => {
+              if (collapsed) {
+                setCollapsed(false);
+              }
+            }}
+          >
+            <GroupIcon size={18} strokeWidth={1.8} />
+
+            {!collapsed && (
+              <>
+                <Typography
+                  type="body-sm"
+                  color="muted"
+                  className="flex-1 text-left"
                 >
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
+                  {group.label}
+                </Typography>
+
+                <Typography type="body-xs" color="muted">
+                  Soon
+                </Typography>
+
+                <Accordion.Indicator>
+                  <ChevronDown size={16} />
+                </Accordion.Indicator>
+              </>
+            )}
+          </Accordion.Trigger>
+        </Accordion.Heading>
+
+        {!collapsed && (
+          <Accordion.Panel>
+            <Accordion.Body className="pb-2 pt-1">
+              <div className="ml-5 flex flex-col gap-1 border-l border-separator pl-3">
+                {group.children.map((child) => (
+                  <div
+                    key={child.href}
+                    className="flex cursor-not-allowed items-center gap-3 rounded-lg px-3 py-2 opacity-40"
+                    aria-disabled="true"
+                    title="Coming soon"
+                  >
+                    {getIcon(child.icon, 16)}
+
+                    <Typography type="body-sm" color="muted">
+                      {child.label}
+                    </Typography>
+                  </div>
+                ))}
+              </div>
+            </Accordion.Body>
+          </Accordion.Panel>
+        )}
+      </Accordion.Item>
+    );
+  })}
+</Accordion>
+      </div>
+
+      {/* Bottom section */}
+      <div className="border-t border-separator p-3">
+        {/* Settings */}
+        <Link
+          href={siteConfig.account.settings.href}
+          className={`
+            ${linkClass(siteConfig.account.settings.href)}
+            ${collapsed ? "justify-center" : ""}
+          `}
+          title={collapsed ? "Settings" : undefined}
+        >
+          {getIcon(siteConfig.account.settings.icon)}
+
+          {!collapsed && (
+            <Typography type="body-sm" color="muted">
+              {siteConfig.account.settings.label}
+            </Typography>
+          )}
+        </Link>
+
+        {/* User profile + Theme switch */}
+        <div
+          className={`
+            mt-3 flex items-center gap-3 rounded-lg p-2
+            ${collapsed ? "justify-center" : ""}
+          `}
+        >
+          <Avatar size="sm" className="shrink-0">
+            <Avatar.Fallback>
+              {siteConfig.account.profile.initials}
+            </Avatar.Fallback>
+          </Avatar>
+
+          {!collapsed && (
+            <>
+              <div className="min-w-0 flex-1">
+                <Typography
+                  type="body-sm"
+                  weight="medium"
+                  truncate
+                >
+                  {siteConfig.account.profile.name}
+                </Typography>
+
+                <Typography
+                  type="body-xs"
+                  color="muted"
+                  truncate
+                >
+                  {siteConfig.account.profile.description}
+                </Typography>
+              </div>
+
+              <ThemeSwitch />
+            </>
+          )}
         </div>
-      )}
-    </nav>
+      </div>
+    </aside>
   );
-};
+}
