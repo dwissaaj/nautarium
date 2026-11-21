@@ -16,22 +16,23 @@ export const siteConfig = {
       icon: "House",
       enabled: true,
       children: [
+       
         {
+          label: {
+            id: "Proyek",
+            en: "Project",
+          },
+          href: "/project",
+          icon: "Library",
+          enabled: true,
+        },
+         {
           label: {
             id: "Blog",
             en: "Blog",
           },
           href: "/blog",
           icon: "BookOpen",
-          enabled: true,
-        },
-        {
-          label: {
-            id: "Sumber Daya",
-            en: "Resource",
-          },
-          href: "/resource",
-          icon: "Library",
           enabled: true,
         },
         {
