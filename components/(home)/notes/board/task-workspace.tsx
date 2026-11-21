@@ -4,7 +4,7 @@
 import { useState } from "react";
 import { Plus } from "lucide-react";
 import { Button, Spinner, Typography } from "@heroui/react";
-import useTasksWorkspace from "./use-noteworkspace";
+import useTasksWorkspace from "../../../../app/lib/(home)/notes/use-noteworkspace";
 import KanbanBoard from "./kanban-board";
 import TaskDrawer from "./task-drawer";
 

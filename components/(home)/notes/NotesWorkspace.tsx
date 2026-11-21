@@ -7,7 +7,7 @@ import { Button, Spinner, Typography } from "@heroui/react";
 
 import KanbanBoard from "./board/kanban-board";
 import TaskDrawer from "./board/task-drawer";
-import useTasksWorkspace from "./board/use-noteworkspace";
+import useTasksWorkspace from "../../../app/lib/(home)/notes/use-noteworkspace";
 
 export default function TasksWorkspace() {
   const [isAddDrawerOpen, setIsAddDrawerOpen] = useState(false);
