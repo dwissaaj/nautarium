@@ -1,15 +1,22 @@
-pub mod notes;
-pub mod tasks;
+pub mod task;
 
 use duckdb::Connection;
-use std::path::Path;
+use std::sync::Mutex;
 
-pub fn initialize(path: &Path) -> Result<Connection, String> {
-    let connection = Connection::open(path)
-        .map_err(|e| e.to_string())?;
+pub struct ActiveProject {
+    pub connection: Connection,
+    pub name: String,
+    pub path: String,
+}
 
-    notes::initialize(&connection)?;
-    tasks::initialize(&connection)?;
+pub struct ProjectState {
+    pub active: Mutex<Option<ActiveProject>>,
+}
 
-    Ok(connection)
+impl Default for ProjectState {
+    fn default() -> Self {
+        Self {
+            active: Mutex::new(None),
+        }
+    }
 }

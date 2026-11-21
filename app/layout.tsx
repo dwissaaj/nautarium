@@ -4,6 +4,7 @@ import "@/styles/globals.css";
 
 import Navbar from "@/components/navigation/navbar";
 import { Providers } from "@/app/providers";
+import { Toast } from "@heroui/react";
 
 export const metadata: Metadata = {
   title: "Nautarium",
@@ -18,6 +19,7 @@ export default function RootLayout({
   return (
     <html suppressHydrationWarning lang="en">
       <body className="min-h-dvh overflow-hidden">
+        <Toast.Provider placement="top end" />
         <Providers>
           <div className="flex h-dvh w-full overflow-hidden">
             <Navbar />
