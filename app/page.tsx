@@ -1,14 +1,22 @@
+"use client";
+
 import Link from "next/link";
 import { ArrowRight, Coffee } from "lucide-react";
 import { Button, Separator, Typography } from "@heroui/react";
 import Image from "next/image";
-
+import { useTranslations } from "next-intl";
+import { useLanguage } from "@/components/language/language-provider";
 import { DiscordIcon, GithubIcon } from "@/components/icons";
 
 export default function HomePage() {
+const { language } = useLanguage();
+console.log("LanguageProvider works:", language);
+
+  const t = useTranslations("Home");
+
   return (
     <main className="flex min-h-full flex-col">
-      <section className="flex flex-1 flex-col items-center justify-center ">
+      <section className="flex flex-1 flex-col items-center justify-center">
         <Image
           alt="Nautarium"
           height={92}
@@ -23,13 +31,13 @@ export default function HomePage() {
           type="body-xs"
           weight="semibold"
         >
-          Welcome to Nautarium
+          {t("welcome")}
         </Typography>
 
-        <Typography className=" text-balance" type="h1" weight="bold">
-          Explore data.
+        <Typography className="text-balance" type="h1" weight="bold">
+          {t("heading")}
           <br />
-          Discover meaning.
+          {t("headingSecond")}
         </Typography>
 
         <Typography
@@ -37,8 +45,7 @@ export default function HomePage() {
           color="muted"
           type="body"
         >
-          A workspace for natural language processing, audio analysis, network
-          exploration, and data-driven research.
+          {t("description")}
         </Typography>
 
         <div className="mt-10 flex flex-wrap justify-center gap-3">
@@ -47,7 +54,7 @@ export default function HomePage() {
               className="bg-accent text-accent-foreground"
               variant="primary"
             >
-              Explore the Blog
+              {t("exploreBlog")}
               <ArrowRight />
             </Button>
           </Link>
@@ -59,16 +66,18 @@ export default function HomePage() {
           >
             <Button variant="secondary">
               <Coffee />
-              Buy Me a Coffee
+              {t("buyCoffee")}
             </Button>
           </a>
         </div>
       </section>
+
       <Separator className="my-4" />
-      <footer className=" px-6 py-5">
+
+      <footer className="px-6 py-5">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4">
           <Typography color="muted" type="body-xs">
-            Nautarium — A space for research and exploration.
+            {t("footer")}
           </Typography>
 
           <div className="flex items-center gap-2">

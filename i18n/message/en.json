@@ -1,0 +1,55 @@
+{
+  "Common": {
+    "appName": "Nautarium",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "loading": "Loading..."
+  },
+  "Navigation": {
+    "home": "Home",
+    "project": "Project",
+    "blog": "Blog",
+    "notes": "Notes",
+    "askAI": "Ask AI",
+    "audio": "Audio",
+    "transcript": "Transcript",
+    "analysis": "Analysis",
+    "summarization": "Summarization",
+    "report": "Report",
+    "network": "Network",
+    "text": "Text",
+    "vision": "Computer Vision",
+    "settings": "Settings"
+  },
+  "Settings": {
+    "appearance": "Appearance",
+    "appearanceDescription": "Customize your application preferences.",
+    "mode": "Mode",
+    "dark": "Dark",
+    "light": "Light",
+    "language": "Language",
+    "languageDescription": "Choose your application language.",
+    "indonesian": "Indonesian",
+    "english": "English"
+  },
+  "Project": {
+    "title": "Projects",
+    "description": "Manage your data analysis projects.",
+    "create": "Create Project",
+    "open": "Open Project",
+    "createSuccess": "Project created successfully.",
+    "openSuccess": "Project opened successfully.",
+    "createError": "Failed to create project.",
+    "openError": "Failed to open project."
+  },
+  "Home": {
+    "welcome": "Welcome to Nautarium",
+    "heading": "Explore data.",
+    "headingSecond": "Discover meaning.",
+    "description": "A workspace for natural language processing, audio analysis, network exploration, and data-driven research.",
+    "exploreBlog": "Explore the Blog",
+    "buyCoffee": "Buy Me a Coffee",
+    "footer": "Nautarium — A space for research and exploration."
+  }
+}

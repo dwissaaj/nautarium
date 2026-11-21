@@ -1,0 +1,55 @@
+{
+  "Common": {
+    "appName": "Nautarium",
+    "cancel": "Batal",
+    "save": "Simpan",
+    "delete": "Hapus",
+    "loading": "Memuat..."
+  },
+  "Navigation": {
+    "home": "Beranda",
+    "project": "Proyek",
+    "blog": "Blog",
+    "notes": "Catatan",
+    "askAI": "Tanya AI",
+    "audio": "Audio",
+    "transcript": "Transkripsi",
+    "analysis": "Analisis",
+    "summarization": "Peringkasan",
+    "report": "Laporan",
+    "network": "Jaringan",
+    "text": "Teks",
+    "vision": "Visi Komputer",
+    "settings": "Pengaturan"
+  },
+  "Settings": {
+    "appearance": "Tampilan",
+    "appearanceDescription": "Atur preferensi tampilan aplikasi.",
+    "mode": "Mode",
+    "dark": "Gelap",
+    "light": "Terang",
+    "language": "Bahasa",
+    "languageDescription": "Pilih bahasa aplikasi.",
+    "indonesian": "Indonesia",
+    "english": "Inggris"
+  },
+  "Project": {
+    "title": "Proyek",
+    "description": "Kelola proyek analisis data Anda.",
+    "create": "Buat Proyek",
+    "open": "Buka Proyek",
+    "createSuccess": "Proyek berhasil dibuat.",
+    "openSuccess": "Proyek berhasil dibuka.",
+    "createError": "Gagal membuat proyek.",
+    "openError": "Gagal membuka proyek."
+  },
+  "Home": {
+    "welcome": "Selamat datang di Nautarium",
+    "heading": "Jelajahi data.",
+    "headingSecond": "Temukan makna.",
+    "description": "Ruang kerja untuk pemrosesan bahasa alami, analisis audio, eksplorasi jaringan, dan penelitian berbasis data.",
+    "exploreBlog": "Jelajahi Blog",
+    "buyCoffee": "Traktir Saya Kopi",
+    "footer": "Nautarium — Ruang untuk penelitian dan eksplorasi."
+  }
+}
