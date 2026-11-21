@@ -1,22 +1,20 @@
+
 "use client";
 
 import { Plus } from "lucide-react";
 import { Typography } from "@heroui/react";
 
-
 import TaskCard from "./task-card";
-import { Task, TaskStatus } from "@/app/lib/(home)/notes/notes";
+import type { Task, TaskStatus } from "@/app/lib/(home)/notes/notes";
 
 interface KanbanColumnProps {
   id: TaskStatus;
   title: string;
   tasks: Task[];
-  onDrop: (status: TaskStatus) => void;
-  onDragStart: (
-    event: React.DragEvent<HTMLDivElement>,
-    taskId: string
+  onPointerDown: (
+    event: React.PointerEvent<HTMLElement>,
+    taskId: string,
   ) => void;
-  onDragEnd: () => void;
   onSave: (task: Task) => void;
   onDelete: (taskId: string) => void;
 }
@@ -25,19 +23,13 @@ export default function KanbanColumn({
   id,
   title,
   tasks,
-  onDrop,
-  onDragStart,
-  onDragEnd,
+  onPointerDown,
   onSave,
   onDelete,
 }: KanbanColumnProps) {
   return (
     <section
-      onDragOver={(event) => event.preventDefault()}
-      onDrop={(event) => {
-        event.preventDefault();
-        onDrop(id);
-      }}
+      data-column-id={id}
       className="flex min-h-[400px] min-w-0 flex-col rounded-2xl bg-default-50 p-3"
     >
       <div className="mb-4 flex items-center justify-between px-1">
@@ -68,8 +60,7 @@ export default function KanbanColumn({
           <TaskCard
             key={task.id}
             task={task}
-            onDragStart={(event) => onDragStart(event, task.id)}
-            onDragEnd={onDragEnd}
+            onPointerDown={onPointerDown}
             onSave={onSave}
             onDelete={onDelete}
           />

@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "nautarium",
+  "productName": "Nautarium",
   "version": "0.1.0",
   "identifier": "com.dwisaji.nautarium",
   "build": {
@@ -12,9 +12,9 @@
   "app": {
     "windows": [
       {
-        "title": "nautarium",
-        "width": 800,
-        "height": 600
+        "title": "Nautarium",
+        "width": 1920,
+        "height": 1080
       }
     ],
     "security": {

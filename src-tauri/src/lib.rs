@@ -1,7 +1,7 @@
-
 mod database;
 
-use database::notes::initialize;
+use database::initialize;
+
 use database::notes::notes::{
     create_note,
     delete_note,
@@ -27,6 +27,7 @@ fn greet(name: &str) -> String {
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
+    println!("NAUTARIUM TAURI RUN FUNCTION STARTED");
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
         .setup(|app| {
@@ -35,12 +36,8 @@ pub fn run() {
 
             let database_path = app_data_dir.join("nautarium-dev.db");
 
-            // Initialize the existing Notes database.
+            // Initialize the database connection and all tables.
             let connection = initialize(&database_path)
-                .map_err(std::io::Error::other)?;
-
-            // Initialize Tasks using the same database connection.
-            database::tasks::tasks::initialize(&connection)
                 .map_err(std::io::Error::other)?;
 
             // Register the shared database connection.

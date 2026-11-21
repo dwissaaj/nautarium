@@ -1,12 +1,8 @@
 pub mod notes;
 
 use duckdb::Connection;
-use std::path::Path;
 
-pub fn initialize(path: &Path) -> Result<Connection, String> {
-    let connection = Connection::open(path)
-        .map_err(|e| e.to_string())?;
-
+pub fn initialize(connection: &Connection) -> Result<(), String> {
     connection.execute_batch(
         r#"
         CREATE TABLE IF NOT EXISTS notes (
@@ -21,7 +17,5 @@ pub fn initialize(path: &Path) -> Result<Connection, String> {
             updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
         );
         "#,
-    ).map_err(|e| e.to_string())?;
-
-    Ok(connection)
+    ).map_err(|e| e.to_string())
 }

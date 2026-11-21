@@ -1,17 +1,17 @@
 import { invoke } from "@tauri-apps/api/core";
-import { CreateTaskInput, Task, UpdateTaskInput } from "./notes";
-
-
+import type {
+  CreateTaskInput,
+  Task,
+  UpdateTaskInput,
+} from "./notes";
 
 export const tasksApi = {
-  // READ: Get all tasks
-  getAll: (): Promise<Task[]> => {
-    return invoke<Task[]>("get_tasks");
+  getAll: async (): Promise<Task[]> => {
+    return await invoke<Task[]>("get_tasks");
   },
 
-  // CREATE: Create a new task
-  create: (task: CreateTaskInput): Promise<Task> => {
-    return invoke<Task>("create_task", {
+  create: async (task: CreateTaskInput): Promise<Task> => {
+    return await invoke<Task>("create_task", {
       title: task.title,
       description: task.description,
       status: task.status,
@@ -20,9 +20,10 @@ export const tasksApi = {
     });
   },
 
-  // UPDATE: Update an existing task
-  update: (task: UpdateTaskInput): Promise<void> => {
-    return invoke<void>("update_task", {
+  update: async (task: UpdateTaskInput): Promise<void> => {
+    console.log("[tasksApi.update] Payload:", task);
+
+    await invoke<void>("update_task", {
       id: task.id,
       title: task.title,
       description: task.description,
@@ -30,10 +31,11 @@ export const tasksApi = {
       priority: task.priority,
       createdAt: task.createdAt,
     });
+
+    console.log("[tasksApi.update] Command completed:", task.id);
   },
 
-  // DELETE: Delete a task
-  delete: (id: string): Promise<void> => {
-    return invoke<void>("delete_task", { id });
+  delete: async (id: string): Promise<void> => {
+    await invoke<void>("delete_task", { id });
   },
 };

@@ -1,4 +1,3 @@
-
 use duckdb::{params, Connection};
 use serde::Serialize;
 use tauri::State;
@@ -37,23 +36,6 @@ fn get_task_by_id(connection: &Connection, id: &str) -> Result<Task, String> {
                     created_at: row.get(5)?,
                 })
             },
-        )
-        .map_err(|e| e.to_string())
-}
-
-pub fn initialize(connection: &Connection) -> Result<(), String> {
-    connection
-        .execute_batch(
-            r#"
-            CREATE TABLE IF NOT EXISTS tasks (
-                id VARCHAR PRIMARY KEY,
-                title VARCHAR NOT NULL DEFAULT 'Untitled',
-                description TEXT NOT NULL DEFAULT '',
-                status VARCHAR NOT NULL DEFAULT 'todo',
-                priority VARCHAR NOT NULL DEFAULT 'medium',
-                created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-            );
-            "#,
         )
         .map_err(|e| e.to_string())
 }
