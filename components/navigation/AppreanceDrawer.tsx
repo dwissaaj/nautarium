@@ -1,11 +1,9 @@
-
 "use client";
 
 import { Accordion, Drawer, Switch, Typography } from "@heroui/react";
 import {
   ChevronDown,
   Palette,
-  Code,
   Puzzle,
   Sun,
   Moon,
@@ -73,10 +71,8 @@ export function AppearanceDrawer() {
                 <Switch
                   aria-label={t.mode}
                   isSelected={isDark}
-                  onChange={(selected) =>
-                    setTheme(selected ? "dark" : "light")
-                  }
                   size="lg"
+                  onChange={(selected) => setTheme(selected ? "dark" : "light")}
                 >
                   {({ isSelected }) => (
                     <Switch.Content>
@@ -115,10 +111,8 @@ export function AppearanceDrawer() {
                 <Switch
                   aria-label={t.language}
                   isSelected={isEnglish}
-                  onChange={(selected) =>
-                    setLanguage(selected ? "en" : "id")
-                  }
                   size="lg"
+                  onChange={(selected) => setLanguage(selected ? "en" : "id")}
                 >
                   {({ isSelected }) => (
                     <Switch.Content>
@@ -141,45 +135,6 @@ export function AppearanceDrawer() {
           </Accordion.Panel>
         </Accordion.Item>
 
-        {/* Snippets */}
-        <Accordion.Item
-          className="rounded-xl border border-separator px-3"
-          id="snippets"
-        >
-          <Accordion.Heading>
-            <Accordion.Trigger className="flex w-full items-center gap-3 py-3">
-              <Code size={18} />
-
-              <div className="flex flex-1 flex-col items-start gap-1">
-                <Typography type="body-sm" weight="medium">
-                  {t.snippets}
-                </Typography>
-
-                <Typography color="muted" type="body-xs">
-                  {t.snippetsDescription}
-                </Typography>
-              </div>
-
-              <Typography color="muted" type="body-xs">
-                {t.snippetsSoon}
-              </Typography>
-
-              <Accordion.Indicator>
-                <ChevronDown size={16} />
-              </Accordion.Indicator>
-            </Accordion.Trigger>
-          </Accordion.Heading>
-
-          <Accordion.Panel>
-            <Accordion.Body className="pb-4 pt-2">
-              <Typography color="muted" type="body-xs">
-                {t.snippetsSoon}
-              </Typography>
-            </Accordion.Body>
-          </Accordion.Panel>
-        </Accordion.Item>
-
-        {/* Extensions */}
         <Accordion.Item
           className="rounded-xl border border-separator px-3"
           id="extensions"

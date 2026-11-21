@@ -1,10 +1,10 @@
-
 "use client";
 
-import { taskColumns } from "@/app/lib/(home)/notes/notes";
 import type { Task, TaskStatus } from "@/app/lib/(home)/notes/notes";
 
 import KanbanColumn from "./kanban-column";
+
+import { taskColumns } from "@/app/lib/(home)/notes/notes";
 
 interface KanbanBoardProps {
   tasks: Task[];
@@ -25,13 +25,11 @@ export default function KanbanBoard({
         <KanbanColumn
           key={column.id}
           id={column.id}
+          tasks={tasks.filter((task) => task.status === column.id)}
           title={column.title}
-          tasks={tasks.filter(
-            (task) => task.status === column.id,
-          )}
+          onDelete={onDelete}
           onDrop={onDrop}
           onSave={onSave}
-          onDelete={onDelete}
         />
       ))}
     </div>

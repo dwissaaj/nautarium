@@ -1,4 +1,3 @@
-
 "use client";
 
 import type { ThemeProviderProps } from "next-themes";
@@ -15,7 +14,12 @@ export interface ProvidersProps {
 
 export function Providers({ children, themeProps }: ProvidersProps) {
   return (
-    <NextThemesProvider {...themeProps}>
+    <NextThemesProvider
+      enableSystem
+      attribute="class"
+      defaultTheme="system"
+      {...themeProps}
+    >
       <LanguageProvider>{children}</LanguageProvider>
     </NextThemesProvider>
   );

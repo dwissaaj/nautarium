@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 
 import "@/styles/globals.css";
 
+import { Toast } from "@heroui/react";
+
 import Navbar from "@/components/navigation/navbar";
 import { Providers } from "@/app/providers";
-import { Toast } from "@heroui/react";
 
 export const metadata: Metadata = {
   title: "Nautarium",

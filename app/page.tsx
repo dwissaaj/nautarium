@@ -5,12 +5,14 @@ import { ArrowRight, Coffee } from "lucide-react";
 import { Button, Separator, Typography } from "@heroui/react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
+
 import { useLanguage } from "@/components/language/language-provider";
 import { DiscordIcon, GithubIcon } from "@/components/icons";
 
 export default function HomePage() {
-const { language } = useLanguage();
-console.log("LanguageProvider works:", language);
+  const { language } = useLanguage();
+
+
 
   const t = useTranslations("Home");
 
@@ -72,7 +74,7 @@ console.log("LanguageProvider works:", language);
         </div>
       </section>
 
-      <Separator className="my-4" />
+      <Separator className="my-4" variant="tertiary" />
 
       <footer className="px-6 py-5">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4">

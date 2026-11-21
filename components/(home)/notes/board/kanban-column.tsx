@@ -1,11 +1,11 @@
-
 "use client";
+
+import type { Task, TaskStatus } from "@/app/lib/(home)/notes/notes";
 
 import { Plus } from "lucide-react";
 import { Typography } from "@heroui/react";
 
 import TaskCard from "./task-card";
-import type { Task, TaskStatus } from "@/app/lib/(home)/notes/notes";
 
 interface KanbanColumnProps {
   id: TaskStatus;
@@ -26,32 +26,32 @@ export default function KanbanColumn({
 }: KanbanColumnProps) {
   return (
     <section
-      data-column-id={id}
-className="
+      className="
   flex min-h-[400px] min-w-0 flex-col
   rounded-2xl bg-default-50 p-3
   border-2 border-default-200
   hover:border-accent
 "
+      data-column-id={id}
     >
       <div className="mb-4 flex items-center justify-between px-1">
         <div className="flex items-center gap-2">
-          <Typography type="body-sm" className="font-semibold">
+          <Typography className="font-semibold" type="body-sm">
             {title}
           </Typography>
 
           <Typography
-            type="body-xs"
             className="rounded-full bg-default-200 px-2 py-0.5 text-default-600"
+            type="body-xs"
           >
             {tasks.length}
           </Typography>
         </div>
 
         <button
-          type="button"
           aria-label={`Add task to ${title}`}
           className="rounded-lg p-1.5 text-default-500 transition-colors hover:bg-default-200"
+          type="button"
         >
           <Plus className="size-4" />
         </button>
@@ -62,9 +62,9 @@ className="
           <TaskCard
             key={task.id}
             task={task}
+            onDelete={onDelete}
             onDrop={onDrop}
             onSave={onSave}
-            onDelete={onDelete}
           />
         ))}
 

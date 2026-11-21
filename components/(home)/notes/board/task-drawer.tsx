@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
 import {
   Button,
   Calendar,
@@ -16,11 +15,9 @@ import {
   TextField,
   Typography,
 } from "@heroui/react";
-
 import { parseDate } from "@internationalized/date";
+
 import { Task } from "@/app/lib/(home)/notes/notes";
-
-
 
 interface TaskDrawerProps {
   task: Task | null;
@@ -93,24 +90,18 @@ export default function TaskDrawer({
 
   return (
     <Drawer>
-      <Button
-        aria-label="Open task drawer"
-        className="sr-only"
-  
-      >
+      <Button aria-label="Open task drawer" className="sr-only">
         Open task drawer
       </Button>
 
       <Drawer.Backdrop
         isOpen={isOpen}
-        onOpenChange={onOpenChange}
         variant="blur"
+        onOpenChange={onOpenChange}
       >
         <Drawer.Content placement="right">
-          <Drawer.Dialog className="h-full w-full max-w-xl">
-            <Drawer.CloseTrigger>
-              
-            </Drawer.CloseTrigger>
+          <Drawer.Dialog className="h-full w-full max-w-xl bg-default">
+            <Drawer.CloseTrigger />
 
             <Drawer.Header className="border-b border-default-200 px-6 py-5">
               <div className="space-y-1">
@@ -118,10 +109,7 @@ export default function TaskDrawer({
                   {isEditing ? "Edit task" : "Create task"}
                 </Drawer.Heading>
 
-                <Typography
-                  type="body-sm"
-                  className="mt-1 text-default-500"
-                >
+                <Typography className="mt-1 text-default-500" type="body-sm">
                   {isEditing
                     ? "Update your task details and progress."
                     : "Create a new task for your board."}
@@ -129,30 +117,23 @@ export default function TaskDrawer({
               </div>
             </Drawer.Header>
 
-            <Drawer.Body className="space-y-6 px-6 py-6">
+            <Drawer.Body className="space-y-6 px-6 py-6 ">
               {formData && (
                 <>
                   {/* Task title */}
                   <TextField
+                    isRequired
                     className="w-full"
                     value={formData.title}
                     onChange={(value) =>
                       setFormData((current) =>
-                        current
-                          ? { ...current, title: value }
-                          : current
+                        current ? { ...current, title: value } : current,
                       )
                     }
-                    isRequired
                   >
-                    <Label className="text-lg font-semibold">
-                      Task title
-                    </Label>
+                    <Label className="text-lg font-semibold">Task title</Label>
 
-                    <Input
-                      fullWidth
-                      placeholder="Enter task title"
-                    />
+                    <Input fullWidth placeholder="Enter task title" />
                   </TextField>
 
                   {/* Description */}
@@ -161,20 +142,13 @@ export default function TaskDrawer({
                     value={formData.description}
                     onChange={(value) =>
                       setFormData((current) =>
-                        current
-                          ? { ...current, description: value }
-                          : current
+                        current ? { ...current, description: value } : current,
                       )
                     }
                   >
-                    <Label className="text-lg font-semibold">
-                      Description
-                    </Label>
+                    <Label className="text-lg font-semibold">Description</Label>
 
-                    <TextArea
-                      placeholder="Describe your task..."
-                      rows={5}
-                    />
+                    <TextArea placeholder="Describe your task..." rows={5} />
                   </TextField>
 
                   {/* Status */}
@@ -189,17 +163,14 @@ export default function TaskDrawer({
                                 ...current,
                                 status: value as Task["status"],
                               }
-                            : current
+                            : current,
                         );
                       }
                     }}
                   >
-                    <Label className="text-lg font-semibold">
-                      Status
-                    </Label>
+                    <Label className="text-lg font-semibold">Status</Label>
 
                     <Select.Trigger
-                      
                       className={`w-full rounded-xl border border-default-200 px-4 py-3 ${statusStyles[formData.status]}`}
                     >
                       <Select.Value />
@@ -234,17 +205,14 @@ export default function TaskDrawer({
                                 ...current,
                                 priority: value as Task["priority"],
                               }
-                            : current
+                            : current,
                         );
                       }
                     }}
                   >
-                    <Label className="text-lg font-semibold">
-                      Priority
-                    </Label>
+                    <Label className="text-lg font-semibold">Priority</Label>
 
                     <Select.Trigger
-                      
                       className={`w-full rounded-xl border border-default-200 px-4 py-3 ${priorityStyles[formData.priority]}`}
                     >
                       <Select.Value />
@@ -279,7 +247,7 @@ export default function TaskDrawer({
                               ...current,
                               createdAt: date?.toString() ?? current.createdAt,
                             }
-                          : current
+                          : current,
                       )
                     }
                   >
@@ -289,9 +257,7 @@ export default function TaskDrawer({
 
                     <DateField.Group fullWidth>
                       <DateField.Input>
-                        {(segment) => (
-                          <DateField.Segment segment={segment} />
-                        )}
+                        {(segment) => <DateField.Segment segment={segment} />}
                       </DateField.Input>
 
                       <DateField.Suffix>
@@ -316,16 +282,12 @@ export default function TaskDrawer({
                         <Calendar.Grid>
                           <Calendar.GridHeader>
                             {(day) => (
-                              <Calendar.HeaderCell>
-                                {day}
-                              </Calendar.HeaderCell>
+                              <Calendar.HeaderCell>{day}</Calendar.HeaderCell>
                             )}
                           </Calendar.GridHeader>
 
                           <Calendar.GridBody>
-                            {(date) => (
-                              <Calendar.Cell date={date} />
-                            )}
+                            {(date) => <Calendar.Cell date={date} />}
                           </Calendar.GridBody>
                         </Calendar.Grid>
 
@@ -345,17 +307,14 @@ export default function TaskDrawer({
 
             <Drawer.Footer className="border-t border-default-200 px-6 py-4">
               <div className="flex w-full justify-end gap-2">
-                <Button
-                  variant="secondary"
-                  onPress={() => onOpenChange(false)}
-                >
+                <Button variant="secondary" onPress={() => onOpenChange(false)}>
                   Cancel
                 </Button>
 
                 <Button
-                  onPress={handleSave}
-                  isDisabled={!formData?.title.trim()}
                   className="bg-foreground text-background"
+                  isDisabled={!formData?.title.trim()}
+                  onPress={handleSave}
                 >
                   {isEditing ? "Save changes" : "Create task"}
                 </Button>

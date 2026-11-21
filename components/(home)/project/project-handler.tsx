@@ -36,8 +36,6 @@ export function useProjectHandler(
         variant: "success",
       });
     } catch (error) {
-      console.error("Failed to create project:", error);
-
       toast("Failed to create project.", {
         description: error instanceof Error ? error.message : String(error),
         indicator: <AlertCircle />,
@@ -66,8 +64,6 @@ export function useProjectHandler(
         variant: "success",
       });
     } catch (error) {
-      console.error("Failed to open project:", error);
-
       toast("Failed to open project.", {
         description: error instanceof Error ? error.message : String(error),
         variant: "danger",

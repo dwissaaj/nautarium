@@ -16,7 +16,6 @@ export const siteConfig = {
       icon: "House",
       enabled: true,
       children: [
-       
         {
           label: {
             id: "Proyek",
@@ -26,7 +25,7 @@ export const siteConfig = {
           icon: "Library",
           enabled: true,
         },
-         {
+        {
           label: {
             id: "Blog",
             en: "Blog",

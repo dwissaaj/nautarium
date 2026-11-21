@@ -1,44 +1,39 @@
-
 "use client";
 
 import { useState } from "react";
 import { Plus } from "lucide-react";
 import { Button, Spinner, Typography } from "@heroui/react";
+
 import useTasksWorkspace from "../../../../app/lib/(home)/notes/use-noteworkspace";
+
 import KanbanBoard from "./kanban-board";
 import TaskDrawer from "./task-drawer";
-
 
 export default function TasksWorkspace() {
   const [isAddDrawerOpen, setIsAddDrawerOpen] = useState(false);
 
-  const {
-    tasks,
-    isLoading,
-    handleDrop,
-    saveTask,
-    deleteTask,
-  } = useTasksWorkspace();
+  const { tasks, isLoading, handleDrop, saveTask, deleteTask } =
+    useTasksWorkspace();
 
   return (
     <main className="space-y-6 p-6">
       <header className="flex items-center justify-between">
         <div>
           <Typography
-            type="h2"
             className="text-2xl font-semibold tracking-tight"
+            type="h2"
           >
             Tasks
           </Typography>
 
-          <Typography type="body-sm" className="mt-1 text-default-500">
+          <Typography className="mt-1 text-default-500" type="body-sm">
             Organize and track your work.
           </Typography>
         </div>
 
         <Button
-          onPress={() => setIsAddDrawerOpen(true)}
           className="bg-foreground text-background"
+          onPress={() => setIsAddDrawerOpen(true)}
         >
           <Plus className="size-4" />
           Add task
@@ -52,15 +47,15 @@ export default function TasksWorkspace() {
       ) : (
         <KanbanBoard
           tasks={tasks}
+          onDelete={deleteTask}
           onDrop={handleDrop}
           onSave={saveTask}
-          onDelete={deleteTask}
         />
       )}
 
       <TaskDrawer
-        task={null}
         isOpen={isAddDrawerOpen}
+        task={null}
         onOpenChange={setIsAddDrawerOpen}
         onSave={saveTask}
       />

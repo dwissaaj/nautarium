@@ -1,10 +1,15 @@
-
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-
 import type { Task, TaskStatus } from "@/app/lib/(home)/notes/notes";
+
+import { useCallback, useEffect, useState } from "react";
+import { toast } from "@heroui/react";
+
 import { tasksApi } from "@/app/lib/(home)/notes/task";
+
+function getErrorMessage(error: unknown): string {
+  return error instanceof Error ? error.message : String(error);
+}
 
 export default function useTasksWorkspace() {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -17,9 +22,13 @@ export default function useTasksWorkspace() {
     const loadTasks = async () => {
       try {
         const result = await tasksApi.getAll();
+
         setTasks(result ?? []);
       } catch (error) {
-        console.error("Failed to load tasks:", error);
+        toast("Failed to load tasks.", {
+          description: getErrorMessage(error),
+          variant: "danger",
+        });
       } finally {
         setIsLoading(false);
       }
@@ -41,34 +50,32 @@ export default function useTasksWorkspace() {
 
       // Optimistic update
       setTasks((current) =>
-        current.map((task) =>
-          task.id === taskId ? updatedTask : task,
-        ),
+        current.map((task) => (task.id === taskId ? updatedTask : task)),
       );
 
       try {
         await tasksApi.update(updatedTask);
 
         const refreshedTasks = await tasksApi.getAll();
+
         setTasks(refreshedTasks ?? []);
       } catch (error) {
-        console.error("Failed to move task:", error);
-
         // Restore previous status
         setTasks((current) =>
-          current.map((task) =>
-            task.id === taskId ? currentTask : task,
-          ),
+          current.map((task) => (task.id === taskId ? currentTask : task)),
         );
+
+        toast("Failed to update task status.", {
+          description: getErrorMessage(error),
+          variant: "danger",
+        });
       }
     },
     [tasks],
   );
 
   const saveTask = async (task: Task) => {
-    const existingTask = tasks.find(
-      (current) => current.id === task.id,
-    );
+    const existingTask = tasks.find((current) => current.id === task.id);
 
     try {
       if (existingTask) {
@@ -92,7 +99,10 @@ export default function useTasksWorkspace() {
         setSelectedId(createdTask.id);
       }
     } catch (error) {
-      console.error("Failed to save task:", error);
+      toast("Failed to save task.", {
+        description: getErrorMessage(error),
+        variant: "danger",
+      });
     }
   };
 
@@ -104,15 +114,16 @@ export default function useTasksWorkspace() {
     try {
       await tasksApi.delete(id);
 
-      setTasks((current) =>
-        current.filter((task) => task.id !== id),
-      );
+      setTasks((current) => current.filter((task) => task.id !== id));
 
       if (selectedId === id) {
         setSelectedId(null);
       }
     } catch (error) {
-      console.error("Failed to delete task:", error);
+      toast("Failed to delete task.", {
+        description: getErrorMessage(error),
+        variant: "danger",
+      });
     }
   };
 

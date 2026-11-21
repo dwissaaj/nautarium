@@ -1,9 +1,6 @@
+import type { CreateTaskInput, Task, UpdateTaskInput } from "./notes";
+
 import { invoke } from "@tauri-apps/api/core";
-import type {
-  CreateTaskInput,
-  Task,
-  UpdateTaskInput,
-} from "./notes";
 
 export const tasksApi = {
   getAll: async (): Promise<Task[]> => {
@@ -21,8 +18,6 @@ export const tasksApi = {
   },
 
   update: async (task: UpdateTaskInput): Promise<void> => {
-    console.log("[tasksApi.update] Payload:", task);
-
     await invoke<void>("update_task", {
       id: task.id,
       title: task.title,
@@ -31,8 +26,6 @@ export const tasksApi = {
       priority: task.priority,
       createdAt: task.createdAt,
     });
-
-    console.log("[tasksApi.update] Command completed:", task.id);
   },
 
   delete: async (id: string): Promise<void> => {
