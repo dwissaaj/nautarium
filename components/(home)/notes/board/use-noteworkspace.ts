@@ -1,8 +1,7 @@
 
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
-import type { PointerEvent as ReactPointerEvent } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import type { Task, TaskStatus } from "@/app/lib/(home)/notes/notes";
 import { tasksApi } from "@/app/lib/(home)/notes/task";
@@ -12,26 +11,12 @@ export default function useTasksWorkspace() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const tasksRef = useRef<Task[]>([]);
-  const draggedTaskRef = useRef<string | null>(null);
-
   const selectedTask = tasks.find((task) => task.id === selectedId);
-
-  const updateTasks = useCallback(
-    (updater: (current: Task[]) => Task[]) => {
-      const next = updater(tasksRef.current);
-      tasksRef.current = next;
-      setTasks(next);
-    },
-    [],
-  );
 
   useEffect(() => {
     const loadTasks = async () => {
       try {
         const result = await tasksApi.getAll();
-
-        tasksRef.current = result ?? [];
         setTasks(result ?? []);
       } catch (error) {
         console.error("Failed to load tasks:", error);
@@ -43,23 +28,9 @@ export default function useTasksWorkspace() {
     void loadTasks();
   }, []);
 
-  const handlePointerDown = (
-    event: ReactPointerEvent<HTMLElement>,
-    taskId: string,
-  ) => {
-    if (event.button !== 0) return;
-
-    event.preventDefault();
-
-    draggedTaskRef.current = taskId;
-    setSelectedId(taskId);
-  };
-
   const handleDrop = useCallback(
     async (taskId: string, status: TaskStatus) => {
-      const currentTask = tasksRef.current.find(
-        (task) => task.id === taskId,
-      );
+      const currentTask = tasks.find((task) => task.id === taskId);
 
       if (!currentTask || currentTask.status === status) return;
 
@@ -68,7 +39,8 @@ export default function useTasksWorkspace() {
         status,
       };
 
-      updateTasks((current) =>
+      // Optimistic update
+      setTasks((current) =>
         current.map((task) =>
           task.id === taskId ? updatedTask : task,
         ),
@@ -78,62 +50,23 @@ export default function useTasksWorkspace() {
         await tasksApi.update(updatedTask);
 
         const refreshedTasks = await tasksApi.getAll();
-
-        tasksRef.current = refreshedTasks ?? [];
         setTasks(refreshedTasks ?? []);
       } catch (error) {
         console.error("Failed to move task:", error);
 
-        updateTasks((current) =>
+        // Restore previous status
+        setTasks((current) =>
           current.map((task) =>
             task.id === taskId ? currentTask : task,
           ),
         );
       }
     },
-    [updateTasks],
+    [tasks],
   );
 
-  // POINTER DROP DETECTION
-  useEffect(() => {
-    const handlePointerUp = (event: PointerEvent) => {
-      const taskId = draggedTaskRef.current;
-
-      if (!taskId) return;
-
-      const target = document.elementFromPoint(
-        event.clientX,
-        event.clientY,
-      );
-
-      const column = target?.closest<HTMLElement>("[data-column-id]");
-
-      const newStatus = column?.dataset.columnId as
-        | TaskStatus
-        | undefined;
-
-      draggedTaskRef.current = null;
-
-      if (newStatus) {
-        void handleDrop(taskId, newStatus);
-      }
-    };
-
-    const handlePointerCancel = () => {
-      draggedTaskRef.current = null;
-    };
-
-    window.addEventListener("pointerup", handlePointerUp);
-    window.addEventListener("pointercancel", handlePointerCancel);
-
-    return () => {
-      window.removeEventListener("pointerup", handlePointerUp);
-      window.removeEventListener("pointercancel", handlePointerCancel);
-    };
-  }, [handleDrop]);
-
   const saveTask = async (task: Task) => {
-    const existingTask = tasksRef.current.find(
+    const existingTask = tasks.find(
       (current) => current.id === task.id,
     );
 
@@ -141,7 +74,7 @@ export default function useTasksWorkspace() {
       if (existingTask) {
         await tasksApi.update(task);
 
-        updateTasks((current) =>
+        setTasks((current) =>
           current.map((currentTask) =>
             currentTask.id === task.id ? task : currentTask,
           ),
@@ -155,7 +88,7 @@ export default function useTasksWorkspace() {
           createdAt: task.createdAt,
         });
 
-        updateTasks((current) => [...current, createdTask]);
+        setTasks((current) => [...current, createdTask]);
         setSelectedId(createdTask.id);
       }
     } catch (error) {
@@ -164,16 +97,14 @@ export default function useTasksWorkspace() {
   };
 
   const deleteTask = async (id: string) => {
-    const deletedTask = tasksRef.current.find(
-      (task) => task.id === id,
-    );
+    const deletedTask = tasks.find((task) => task.id === id);
 
     if (!deletedTask) return;
 
     try {
       await tasksApi.delete(id);
 
-      updateTasks((current) =>
+      setTasks((current) =>
         current.filter((task) => task.id !== id),
       );
 
@@ -191,8 +122,7 @@ export default function useTasksWorkspace() {
     selectedTask,
     selectedIdSetter: setSelectedId,
     isLoading,
-    updateTasks,
-    handlePointerDown,
+    handleDrop,
     saveTask,
     deleteTask,
   };

@@ -1,7 +1,8 @@
 
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { createDraggable } from "animejs";
 import { Button, Typography } from "@heroui/react";
 import {
   CalendarDays,
@@ -11,16 +12,13 @@ import {
 } from "lucide-react";
 
 import TaskDrawer from "./task-drawer";
-import type { Task } from "@/app/lib/(home)/notes/notes";
+import type { Task, TaskStatus } from "@/app/lib/(home)/notes/notes";
 
 interface TaskCardProps {
   task: Task;
-  onPointerDown: (
-    event: React.PointerEvent<HTMLElement>,
-    taskId: string,
-  ) => void;
-  onSave: (task: Task) => void;
+  onDrop: (taskId: string, status: TaskStatus) => void;
   onDelete: (taskId: string) => void;
+  onSave: (task: Task) => void;
 }
 
 const priorityStyles: Record<Task["priority"], string> = {
@@ -28,6 +26,12 @@ const priorityStyles: Record<Task["priority"], string> = {
   medium: "bg-warning/10 text-warning border-warning/20",
   high: "bg-danger/10 text-danger border-danger/20",
 };
+
+const validStatuses: TaskStatus[] = [
+  "todo",
+  "in-progress",
+  "done",
+];
 
 function formatTaskDate(value: string): string {
   if (!value) return "—";
@@ -52,27 +56,109 @@ function formatTaskDate(value: string): string {
 
 export default function TaskCard({
   task,
-  onPointerDown,
-  onSave,
+  onDrop,
   onDelete,
+  onSave,
 }: TaskCardProps) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
+  const cardRef = useRef<HTMLElement | null>(null);
+  const dragHandleRef = useRef<HTMLSpanElement | null>(null);
+
   const formattedDate = formatTaskDate(task.createdAt);
+
+  useEffect(() => {
+    const card = cardRef.current;
+    const dragHandle = dragHandleRef.current;
+
+    if (!card || !dragHandle) return;
+
+const clearColumnHighlights = () => {
+  document
+    .querySelectorAll<HTMLElement>("[data-column-id]")
+    .forEach((column) => {
+      column.classList.remove("border-accent");
+    });
+};
+
+    const draggable = createDraggable(card, {
+      trigger: dragHandle,
+      x: true,
+      y: true,
+      releaseStiffness: 240,
+      releaseDamping: 24,
+
+      onGrab: () => {
+        card.style.zIndex = "100";
+        card.style.scale = "1.03";
+        card.style.borderColor = "var(--heroui-primary)";
+        card.style.boxShadow =
+          "0 20px 45px rgba(0, 0, 0, 0.18)";
+        card.style.pointerEvents = "none";
+      },
+
+      onDrag: (instance) => {
+        const [pointerX, pointerY] = instance.pointer;
+
+        const target = document.elementFromPoint(
+          pointerX,
+          pointerY,
+        );
+
+        const targetColumn =
+          target?.closest<HTMLElement>("[data-column-id]");
+
+        clearColumnHighlights();
+targetColumn?.classList.add("border-accent");
+      },
+
+      onRelease: (instance) => {
+        const [pointerX, pointerY] = instance.pointer;
+
+        const target = document.elementFromPoint(
+          pointerX,
+          pointerY,
+        );
+
+        const targetColumn =
+          target?.closest<HTMLElement>("[data-column-id]");
+
+        const newStatus = targetColumn?.dataset
+          .columnId as TaskStatus | undefined;
+
+        clearColumnHighlights();
+
+        card.style.pointerEvents = "";
+        card.style.zIndex = "";
+        card.style.scale = "";
+        card.style.borderColor = "";
+        card.style.boxShadow = "";
+
+        if (newStatus && validStatuses.includes(newStatus)) {
+          onDrop(task.id, newStatus);
+        }
+      },
+    });
+
+    return () => {
+      draggable.disable();
+      clearColumnHighlights();
+    };
+  }, [task.id, onDrop]);
 
   return (
     <>
       <article
-        onPointerDown={(event) => onPointerDown(event, task.id)}
+        ref={cardRef}
         data-task-id={task.id}
         className="
-          group cursor-grab touch-none select-none rounded-[1.5rem]
-          border border-default-200/70 bg-background p-5
+          group relative cursor-default select-none
+          rounded-[1.5rem]
+          border border-default-200/70
+          bg-background p-5
           shadow-[0_4px_16px_rgba(0,0,0,0.06)]
-          transition-all duration-300
-          hover:-translate-y-1
-          hover:shadow-[0_10px_30px_rgba(0,0,0,0.10)]
-          active:cursor-grabbing
+          will-change-transform
+          transition-colors duration-200
         "
       >
         <div className="mb-4 flex items-center justify-between font-sans">
@@ -84,7 +170,18 @@ export default function TaskCard({
             </Typography>
           </Button>
 
-          <GripVertical className="size-4 text-default-400 opacity-0 transition-opacity group-hover:opacity-100" />
+          <span
+            ref={dragHandleRef}
+            title="Drag task"
+            className="
+              cursor-grab touch-none rounded-md p-1
+              text-default-400 transition-colors
+              hover:bg-default-100 hover:text-primary
+              active:cursor-grabbing
+            "
+          >
+            <GripVertical className="size-4" />
+          </span>
         </div>
 
         <div className="space-y-2">
@@ -108,7 +205,6 @@ export default function TaskCard({
               variant="ghost"
               aria-label="Edit task"
               onPress={() => setIsDrawerOpen(true)}
-              onPointerDown={(event) => event.stopPropagation()}
               className="text-default-500 hover:text-primary"
             >
               <Pencil className="size-3.5" />
@@ -120,7 +216,6 @@ export default function TaskCard({
               variant="ghost"
               aria-label="Delete task"
               onPress={() => onDelete(task.id)}
-              onPointerDown={(event) => event.stopPropagation()}
               className="text-default-500 hover:text-danger"
             >
               <Trash2 className="size-3.5" />
@@ -129,7 +224,9 @@ export default function TaskCard({
 
           <div className="flex items-center gap-1.5 text-default-400">
             <CalendarDays className="size-3.5" />
-            <Typography type="body-xs">{formattedDate}</Typography>
+            <Typography type="body-xs">
+              {formattedDate}
+            </Typography>
           </div>
         </div>
       </article>

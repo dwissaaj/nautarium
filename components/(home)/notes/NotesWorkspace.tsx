@@ -15,7 +15,7 @@ export default function TasksWorkspace() {
   const {
     tasks,
     isLoading,
-    handlePointerDown,
+    handleDrop,
     saveTask,
     deleteTask,
   } = useTasksWorkspace();
@@ -52,7 +52,7 @@ export default function TasksWorkspace() {
       ) : (
         <KanbanBoard
           tasks={tasks}
-          onPointerDown={handlePointerDown}
+          onDrop={handleDrop}
           onSave={saveTask}
           onDelete={deleteTask}
         />

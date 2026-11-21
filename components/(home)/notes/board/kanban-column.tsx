@@ -11,10 +11,7 @@ interface KanbanColumnProps {
   id: TaskStatus;
   title: string;
   tasks: Task[];
-  onPointerDown: (
-    event: React.PointerEvent<HTMLElement>,
-    taskId: string,
-  ) => void;
+  onDrop: (taskId: string, status: TaskStatus) => void;
   onSave: (task: Task) => void;
   onDelete: (taskId: string) => void;
 }
@@ -23,14 +20,19 @@ export default function KanbanColumn({
   id,
   title,
   tasks,
-  onPointerDown,
+  onDrop,
   onSave,
   onDelete,
 }: KanbanColumnProps) {
   return (
     <section
       data-column-id={id}
-      className="flex min-h-[400px] min-w-0 flex-col rounded-2xl bg-default-50 p-3"
+className="
+  flex min-h-[400px] min-w-0 flex-col
+  rounded-2xl bg-default-50 p-3
+  border-2 border-default-200
+  hover:border-accent
+"
     >
       <div className="mb-4 flex items-center justify-between px-1">
         <div className="flex items-center gap-2">
@@ -60,14 +62,14 @@ export default function KanbanColumn({
           <TaskCard
             key={task.id}
             task={task}
-            onPointerDown={onPointerDown}
+            onDrop={onDrop}
             onSave={onSave}
             onDelete={onDelete}
           />
         ))}
 
         {tasks.length === 0 && (
-          <div className="flex min-h-28 flex-1 items-center justify-center rounded-xl border border-dashed border-default-300 text-xs text-default-400">
+          <div className="flex min-h-28 flex-1 items-center justify-center rounded-xl border border-dashed border-default text-xs text-default-400">
             Drop tasks here
           </div>
         )}

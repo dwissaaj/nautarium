@@ -8,17 +8,14 @@ import KanbanColumn from "./kanban-column";
 
 interface KanbanBoardProps {
   tasks: Task[];
-  onPointerDown: (
-    event: React.PointerEvent<HTMLElement>,
-    taskId: string,
-  ) => void;
+  onDrop: (taskId: string, status: TaskStatus) => void;
   onSave: (task: Task) => void;
   onDelete: (taskId: string) => void;
 }
 
 export default function KanbanBoard({
   tasks,
-  onPointerDown,
+  onDrop,
   onSave,
   onDelete,
 }: KanbanBoardProps) {
@@ -27,12 +24,12 @@ export default function KanbanBoard({
       {taskColumns.map((column) => (
         <KanbanColumn
           key={column.id}
-          id={column.id as TaskStatus}
+          id={column.id}
           title={column.title}
           tasks={tasks.filter(
             (task) => task.status === column.id,
           )}
-          onPointerDown={onPointerDown}
+          onDrop={onDrop}
           onSave={onSave}
           onDelete={onDelete}
         />

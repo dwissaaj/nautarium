@@ -8,13 +8,14 @@ import useTasksWorkspace from "./use-noteworkspace";
 import KanbanBoard from "./kanban-board";
 import TaskDrawer from "./task-drawer";
 
+
 export default function TasksWorkspace() {
   const [isAddDrawerOpen, setIsAddDrawerOpen] = useState(false);
 
   const {
     tasks,
     isLoading,
-    handlePointerDown,
+    handleDrop,
     saveTask,
     deleteTask,
   } = useTasksWorkspace();
@@ -23,9 +24,13 @@ export default function TasksWorkspace() {
     <main className="space-y-6 p-6">
       <header className="flex items-center justify-between">
         <div>
-          <Typography type="h2" className="text-2xl font-semibold tracking-tight">
+          <Typography
+            type="h2"
+            className="text-2xl font-semibold tracking-tight"
+          >
             Tasks
           </Typography>
+
           <Typography type="body-sm" className="mt-1 text-default-500">
             Organize and track your work.
           </Typography>
@@ -47,7 +52,7 @@ export default function TasksWorkspace() {
       ) : (
         <KanbanBoard
           tasks={tasks}
-          onPointerDown={handlePointerDown}
+          onDrop={handleDrop}
           onSave={saveTask}
           onDelete={deleteTask}
         />
