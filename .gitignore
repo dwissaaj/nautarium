@@ -38,3 +38,16 @@ pnpm-lock.yaml
 yarn.lock
 package-lock.json
 bun.lockb
+
+# Python virtual environment
+src-tauri/python/.venv/
+
+# ML models
+src-tauri/models/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# macOS
+.DS_Store

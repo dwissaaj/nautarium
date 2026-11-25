@@ -1,7 +1,13 @@
+mod audio;
 mod database;
 mod project;
+mod pyrust;
 
 use database::ProjectState;
+
+use crate::pyrust::{
+    run_python
+};
 
 use crate::database::task::task::{
     create_task,
@@ -13,6 +19,10 @@ use crate::database::task::task::{
 use crate::project::project::{
     create_project,
     open_project,
+};
+use crate::audio::asr::whisper::{
+    transcribe_audio,
+    load_whisper
 };
 
 #[tauri::command]
@@ -28,6 +38,7 @@ pub fn run() {
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_dialog::init())
         .manage(ProjectState::default())
+        .manage(audio::asr::WhisperState::default())
         .invoke_handler(tauri::generate_handler![
             greet,
             create_task,
@@ -35,7 +46,10 @@ pub fn run() {
             update_task,
             delete_task,
             create_project,
-            open_project
+            open_project,
+            load_whisper,
+            transcribe_audio,
+            run_python
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
