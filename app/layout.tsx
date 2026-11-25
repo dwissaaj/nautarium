@@ -6,6 +6,7 @@ import { Toast } from "@heroui/react";
 
 import Navbar from "@/components/navigation/navbar";
 import { Providers } from "@/app/providers";
+import { fontsans, fontmono } from "@/config/fonts";
 
 export const metadata: Metadata = {
   title: "Nautarium",
@@ -19,13 +20,18 @@ export default function RootLayout({
 }>) {
   return (
     <html suppressHydrationWarning lang="en">
-      <body className="min-h-dvh overflow-hidden">
+      <body
+        className={`${fontsans.variable} ${fontmono.variable} min-h-dvh overflow-hidden`}
+      >
         <Toast.Provider placement="top end" />
+
         <Providers>
           <div className="flex h-dvh w-full overflow-hidden">
             <Navbar />
 
-            <main className="min-w-0 flex-1 overflow-y-auto">{children}</main>
+            <main className="min-w-0 flex-1 overflow-y-auto">
+              {children}
+            </main>
           </div>
         </Providers>
       </body>

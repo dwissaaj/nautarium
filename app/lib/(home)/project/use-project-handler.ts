@@ -2,6 +2,8 @@ import { invoke } from "@tauri-apps/api/core";
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import { open, save } from "@tauri-apps/plugin-dialog";
 
+import { useProjectState } from "./project.state";
+
 export async function createProject(name: string): Promise<string | null> {
   const projectName = name.trim();
 
@@ -29,6 +31,11 @@ export async function createProject(name: string): Promise<string | null> {
 
   await getCurrentWindow().setTitle(`${savedProjectName} — Nautarium`);
 
+  useProjectState.getState().setProject({
+    name: savedProjectName,
+    path,
+  });
+
   return savedProjectName;
 }
 
@@ -52,6 +59,11 @@ export async function openProject(): Promise<string | null> {
   });
 
   await getCurrentWindow().setTitle(`${projectName} — Nautarium`);
+
+  useProjectState.getState().setProject({
+    name: projectName,
+    path,
+  });
 
   return projectName;
 }

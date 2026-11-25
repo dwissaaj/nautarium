@@ -1,6 +1,6 @@
 "use client";
 
-import type { Task, TaskStatus } from "@/app/lib/(home)/notes/notes";
+import type { Task, TaskStatus } from "@/app/lib/(home)/notes/task.dto";
 
 import { Plus } from "lucide-react";
 import { Typography } from "@heroui/react";

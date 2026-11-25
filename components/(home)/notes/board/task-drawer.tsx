@@ -17,7 +17,7 @@ import {
 } from "@heroui/react";
 import { parseDate } from "@internationalized/date";
 
-import { Task } from "@/app/lib/(home)/notes/notes";
+import { Task } from "@/app/lib/(home)/notes/task.dto";
 
 interface TaskDrawerProps {
   task: Task | null;

@@ -1,10 +1,10 @@
 "use client";
 
-import type { Task, TaskStatus } from "@/app/lib/(home)/notes/notes";
+import type { Task, TaskStatus } from "@/app/lib/(home)/notes/task.dto";
 
 import KanbanColumn from "./kanban-column";
 
-import { taskColumns } from "@/app/lib/(home)/notes/notes";
+import { taskColumns } from "@/app/lib/(home)/notes/task.dto";
 
 interface KanbanBoardProps {
   tasks: Task[];

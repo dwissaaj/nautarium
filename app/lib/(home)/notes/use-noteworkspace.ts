@@ -1,6 +1,6 @@
 "use client";
 
-import type { Task, TaskStatus } from "@/app/lib/(home)/notes/notes";
+import type { Task, TaskStatus } from "@/app/lib/(home)/notes/task.dto";
 
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "@heroui/react";
@@ -124,7 +124,7 @@ export default function useTasksWorkspace() {
         description: getErrorMessage(error),
         variant: "danger",
       });
-    }
+     }
   };
 
   return {

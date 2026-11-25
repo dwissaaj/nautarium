@@ -1,4 +1,4 @@
-import type { CreateTaskInput, Task, UpdateTaskInput } from "./notes";
+import type { CreateTaskInput, Task, UpdateTaskInput } from "./task.dto";
 
 import { invoke } from "@tauri-apps/api/core";
 
